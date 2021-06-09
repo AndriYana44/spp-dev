@@ -34,12 +34,12 @@
                   <span class="nav-icon">
                     <i class="material-icons">&#xe5c3;</i>
                   </span>
-                  <span class="nav-text">Apps</span>
+                  <span class="nav-text">Master</span>
                 </a>
                 <ul class="nav-sub">
                   <li>
-                    <a href="inbox.html" >
-                      <span class="nav-text">Inbox</span>
+                    <a href="{{ url('') }}/siswa" >
+                      <span class="nav-text">Siswa</span>
                     </a>
                   </li>
                   <li>

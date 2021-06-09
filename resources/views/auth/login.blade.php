@@ -159,7 +159,7 @@
 <script>
     const num_one = Math.round(Math.random() * (1, 100))
     const num_two = Math.round(Math.random() * (1, 100))
-    
+
     const el_one = document.querySelector('.one')
     const el_two = document.querySelector('.two')
     el_one.innerHTML = num_one
@@ -169,7 +169,7 @@
 
     $(function() {
         $('.hasil').on('keyup', '.result', function(e){
-            if($.inArray(e.key, ['1','2','3','4','5','6','7','8','9']) == -1) {
+            if($.inArray(e.key, ['0','1','2','3','4','5','6','7','8','9']) == -1) {
                 $('.result').val('')
             }
         });

@@ -18,7 +18,7 @@
               </li>
 
               <li>
-                <a href="dashboard.html" >
+                <a href="{{ url('') }}" >
                   <span class="nav-icon">
                     <i class="fa fa-dashboard"></i>
                   </span>
@@ -328,9 +328,6 @@
 
             </ul>
         </nav>
-      </div>
-      <div flex-no-shrink>
-        <div ui-include="'../views/blocks/aside.bottom.0.html'"></div>
       </div>
     </div>
   </div>

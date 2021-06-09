@@ -2,28 +2,26 @@
 @section('content')
 <style>
     .menu-position {
-        margin-top: 2.5rem;
+        margin-top: 2rem;
         position: absolute;
         left: 0;
-        height: 60px;
+        height: 40px;
         width: 100%;
-        background-color: #FFF;
+        background-color: rgb(225, 225, 225);
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        padding-right: 30px;
         padding-left: 200px;
+        color: #777;
     }
     .card {
-        margin-top: 7rem;
+        margin-top: 5.5rem;
         padding: 20px;
-        box-shadow: 0 1px 5px rgba(0, 0, 0, .1);
         width: 100%;
+        height: max-content;
     }
 </style>
-<div class="menu-position shadow">
-    <h5 class="d-inline">Dashboard</h5>
-    <small class="text-dark">Dashboard</small>
+<div class="menu-position">
+    <small>Dashboard</small>
 </div>
 
 <div class="card">

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Flatkit - HTML Version | Bootstrap 4 Web App Kit with AngularJS</title>
+  <title>SISTEM PEMBAYARAN SPP</title>
   <meta name="description" content="Admin, Dashboard, Bootstrap, Bootstrap 4, Angular, AngularJS" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,7 +14,7 @@
   <meta name="apple-mobile-web-app-title" content="Flatkit">
   <!-- for Chrome on Android, multi-resolution icon of 196x196 -->
   <meta name="mobile-web-app-capable" content="yes">
-  <link rel="shortcut icon" sizes="196x196" href="../assets/images/logo.png">
+  <link rel="shortcut icon" sizes="196x196" href="{{ asset('') }}img/user-side.png">
 
   <!-- style -->
   <link rel="stylesheet" href="../assets/animate.css/animate.min.css" type="text/css" />
@@ -30,6 +30,38 @@
 </head>
 <body>
   <div class="app" id="app">
+    <style>
+      .menu-setting {
+        opacity: 0;
+        display: none;
+        padding-top: 10px;
+        position: absolute;
+        background-color: #FFF;
+        box-shadow: 1px 2px 5px rgba(0, 0, 0, .2);
+        right: 10px;
+        top: 55px;
+        text-align: left;
+        flex-direction: column;
+        border-radius: 3px;
+        transition: .5s;
+      }
+      .menu-setting a {
+        color: rgb(79, 79, 79);
+        transition: .3s;
+        padding: 5px 40px 5px 15px;
+      }
+      .menu-setting a:last-child {
+        margin-top: 8px;
+        background-color: #eee;
+      }
+      .menu-setting a:last-child:hover {
+        background-color: #ddd;
+      }
+      .menu-setting a:hover {
+        color: rgb(34, 34, 34);
+        background-color: #eee;
+      }
+    </style>
 
 <!-- ############ LAYOUT START-->
 
@@ -54,9 +86,6 @@
     </div>
 
     <div class="modal fade inactive" id="chat" data-backdrop="false">
-    <div class="right w-xxl grey lt b-l">
-        <div ui-include="'../views/blocks/modal.chat.html'"></div>
-    </div>
     </div>
 
     <!-- ############ PAGE END-->
@@ -94,6 +123,31 @@
   <!-- ajax -->
   <script src="../libs/jquery/jquery-pjax/jquery.pjax.js"></script>
   <script src="scripts/ajax.js"></script>
+  <script>
+    $('.profile-sett').click(() => {
+      var displayMenuProfile = $('.menu-setting').css('display')
+      if(displayMenuProfile == 'none') {
+        $('.menu-setting').css('display', 'flex')
+        setTimeout(function() {
+          $('.menu-setting').css('opacity', '1')
+        }, 100)
+      }else{
+        $('.menu-setting').css('opacity', '0')
+        setTimeout(function() {
+          $('.menu-setting').css('display', 'none')
+        }, 500)
+      }
+    })
+
+    $(document).on('click', function(e) {
+      if(e.target.className != 'menu-setting') {
+        $('.menu-setting').css('opacity', '0')
+        setTimeout(function() {
+          $('.menu-setting').css('display', 'none')
+        }, 500)
+      }
+    })
+  </script>
 <!-- endbuild -->
 @yield('scripts')
 </body>

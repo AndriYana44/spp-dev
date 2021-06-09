@@ -95,5 +95,6 @@
   <script src="../libs/jquery/jquery-pjax/jquery.pjax.js"></script>
   <script src="scripts/ajax.js"></script>
 <!-- endbuild -->
+@yield('scripts')
 </body>
 </html>

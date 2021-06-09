@@ -3,10 +3,9 @@
     <div class="left navside grey dk" layout="column">
       <div class="navbar no-radius">
         <!-- brand -->
-        <a class="navbar-brand">
-        	<div ui-include="'../assets/images/logo.svg'"></div>
-        	<img src="../assets/images/logo.png" alt="." class="hide">
-        	<span class="hidden-folded inline">Flatkit</span>
+        <a class="navbar-brand clear">
+            <img src="{{ asset('') }}img/user-side.png" alt=".">
+            <span>Admin</span>
         </a>
         <!-- / brand -->
       </div>
@@ -21,9 +20,7 @@
               <li>
                 <a href="dashboard.html" >
                   <span class="nav-icon">
-                    <i class="material-icons">&#xe3fc;
-                      <span ui-include="'../assets/images/i_0.svg'"></span>
-                    </i>
+                    <i class="fa fa-dashboard"></i>
                   </span>
                   <span class="nav-text">Dashboard</span>
                 </a>
@@ -34,13 +31,8 @@
                   <span class="nav-caret">
                     <i class="fa fa-caret-down"></i>
                   </span>
-                  <span class="nav-label">
-                    <b class="label rounded label-sm primary">5</b>
-                  </span>
                   <span class="nav-icon">
-                    <i class="material-icons">&#xe5c3;
-                      <span ui-include="'../assets/images/i_1.svg'"></span>
-                    </i>
+                    <i class="material-icons">&#xe5c3;</i>
                   </span>
                   <span class="nav-text">Apps</span>
                 </a>
@@ -69,9 +61,7 @@
                     <i class="fa fa-caret-down"></i>
                   </span>
                   <span class="nav-icon">
-                    <i class="material-icons">&#xe8f0;
-                      <span ui-include="'../assets/images/i_2.svg'"></span>
-                    </i>
+                    <i class="material-icons">&#xe5c3;</i>
                   </span>
                   <span class="nav-text">Layouts</span>
                 </a>
@@ -97,9 +87,7 @@
               <li>
                 <a href="widget.html" >
                   <span class="nav-icon">
-                    <i class="material-icons">&#xe8d2;
-                      <span ui-include="'../assets/images/i_3.svg'"></span>
-                    </i>
+                    <i class="material-icons">&#xe5c3;</i>
                   </span>
                   <span class="nav-text">Widgets</span>
                 </a>
@@ -114,77 +102,12 @@
                   <span class="nav-caret">
                     <i class="fa fa-caret-down"></i>
                   </span>
-                  <span class="nav-label">
-                    <b class="label label-sm accent">8</b>
-                  </span>
                   <span class="nav-icon">
-                    <i class="material-icons">&#xe429;
-                      <span ui-include="'../assets/images/i_4.svg'"></span>
-                    </i>
+                    <i class="material-icons">&#xe5c3;</i>
                   </span>
                   <span class="nav-text">UI kit</span>
                 </a>
                 <ul class="nav-sub nav-mega nav-mega-3">
-                  <li>
-                    <a href="arrow.html" >
-                      <span class="nav-text">Arrow</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="box.html" >
-                      <span class="nav-text">Box</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="button.html" >
-                      <span class="nav-text">Button</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="color.html" >
-                      <span class="nav-text">Color</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="dropdown.html" >
-                      <span class="nav-text">Dropdown</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="grid.html" >
-                      <span class="nav-text">Grid</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="icon.html" >
-                      <span class="nav-text">Icon</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="label.html" >
-                      <span class="nav-text">Label</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="list.html" >
-                      <span class="nav-text">List Group</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="modal.html" >
-                      <span class="nav-text">Modal</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="nav.html" >
-                      <span class="nav-text">Nav</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="progress.html" >
-                      <span class="nav-text">Progress</span>
-                    </a>
-                  </li>
                   <li>
                     <a href="social.html" >
                       <span class="nav-text">Social</span>
@@ -218,55 +141,12 @@
                   <span class="nav-caret">
                     <i class="fa fa-caret-down"></i>
                   </span>
-                  <span class="nav-label"><b class="label no-bg">9</b></span>
                   <span class="nav-icon">
-                    <i class="material-icons">&#xe3e8;
-                      <span ui-include="'../assets/images/i_5.svg'"></span>
-                    </i>
+                    <i class="material-icons">&#xe5c3;</i>
                   </span>
                   <span class="nav-text">Pages</span>
                 </a>
                 <ul class="nav-sub nav-mega">
-                  <li>
-                    <a href="profile.html" >
-                      <span class="nav-text">Profile</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="setting.html" >
-                      <span class="nav-text">Setting</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="search.html" >
-                      <span class="nav-text">Search</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="faq.html" >
-                      <span class="nav-text">FAQ</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="gallery.html" >
-                      <span class="nav-text">Gallery</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="invoice.html" >
-                      <span class="nav-text">Invoice</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="price.html" >
-                      <span class="nav-text">Price</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="blank.html" >
-                      <span class="nav-text">Blank</span>
-                    </a>
-                  </li>
                   <li>
                     <a href="signin.html" >
                       <span class="nav-text">Sign In</span>
@@ -306,9 +186,7 @@
                     <i class="fa fa-caret-down"></i>
                   </span>
                   <span class="nav-icon">
-                    <i class="material-icons">&#xe39e;
-                      <span ui-include="'../assets/images/i_6.svg'"></span>
-                    </i>
+                    <i class="material-icons">&#xe5c3;</i>
                   </span>
                   <span class="nav-text">Form</span>
                 </a>
@@ -362,9 +240,7 @@
                     <i class="fa fa-caret-down"></i>
                   </span>
                   <span class="nav-icon">
-                    <i class="material-icons">&#xe896;
-                      <span ui-include="'../assets/images/i_7.svg'"></span>
-                    </i>
+                    <i class="material-icons">&#xe5c3;</i>
                   </span>
                   <span class="nav-text">Tables</span>
                 </a>
@@ -391,13 +267,8 @@
                   <span class="nav-caret">
                     <i class="fa fa-caret-down"></i>
                   </span>
-                  <span class="nav-label hidden-folded">
-                    <b class="label label-sm info">N</b>
-                  </span>
                   <span class="nav-icon">
-                    <i class="material-icons">&#xe1b8;
-                      <span ui-include="'../assets/images/i_8.svg'"></span>
-                    </i>
+                    <i class="material-icons">&#xe5c3;</i>
                   </span>
                   <span class="nav-text">Charts</span>
                 </a>

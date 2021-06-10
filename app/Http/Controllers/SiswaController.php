@@ -5,12 +5,29 @@ namespace App\Http\Controllers;
 use App\Models\Siswa;
 use App\Models\SiswaDetail;
 use Illuminate\Http\Request;
+use DataTables;
 
 class SiswaController extends Controller
 {
     public function index()
     {
         return view('siswa/siswa');
+    }
+
+    public function dataSiswa()
+    {
+        $data = Siswa::where('is_deleted', 0)->get();
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('actions', function($data) {
+                $button = '<a href="#" class="btn btn-warning btn-sm">Edit</a>
+                <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                <a href="#" class="btn btn-info btn-sm">Detail</a>';
+                return $button;
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
     }
 
     public function importCsv(Request $request)

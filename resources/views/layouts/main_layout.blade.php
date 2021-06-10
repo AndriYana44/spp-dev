@@ -27,6 +27,9 @@
   <link rel="stylesheet" href="../assets/styles/app.css" type="text/css" />
   <!-- endbuild -->
   <link rel="stylesheet" href="../assets/styles/font.css" type="text/css" />
+  <!-- DataTable -->
+  <link rel="stylesheet" type="text/css" href="{{ asset('') }}assets/DataTables/datatables.min.css"/>
+
 </head>
 <body>
   <div class="app" id="app">
@@ -96,33 +99,36 @@
 
 <!-- build:js scripts/app.html.js -->
 <!-- jQuery -->
-  <script src="../libs/jquery/jquery/dist/jquery.js"></script>
+  <script src="{{ asset('') }}libs/jquery/jquery/dist/jquery.js"></script>
 <!-- Bootstrap -->
-  <script src="../libs/jquery/tether/dist/js/tether.min.js"></script>
-  <script src="../libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="{{ asset('') }}libs/jquery/tether/dist/js/tether.min.js"></script>
+  <script src="{{ asset('') }}libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
 <!-- core -->
-  <script src="../libs/jquery/underscore/underscore-min.js"></script>
-  <script src="../libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js"></script>
-  <script src="../libs/jquery/PACE/pace.min.js"></script>
+  <script src="{{ asset('') }}libs/jquery/underscore/underscore-min.js"></script>
+  <script src="{{ asset('') }}libs/jquery/jQuery-Storage-API/jquery.storageapi.min.js"></script>
+  <script src="{{ asset('') }}libs/jquery/PACE/pace.min.js"></script>
 
-  <script src="scripts/config.lazyload.js"></script>
+  <script src="{{ asset('') }}scripts/config.lazyload.js"></script>
 
-  <script src="scripts/palette.js"></script>
-  <script src="scripts/ui-load.js"></script>
-  <script src="scripts/ui-jp.js"></script>
-  <script src="scripts/ui-include.js"></script>
-  <script src="scripts/ui-device.js"></script>
-  <script src="scripts/ui-form.js"></script>
-  <script src="scripts/ui-nav.js"></script>
-  <script src="scripts/ui-screenfull.js"></script>
-  <script src="scripts/ui-scroll-to.js"></script>
-  <script src="scripts/ui-toggle-class.js"></script>
+  <script src="{{ asset('') }}scripts/palette.js"></script>
+  <script src="{{ asset('') }}scripts/ui-load.js"></script>
+  <script src="{{ asset('') }}scripts/ui-jp.js"></script>
+  <script src="{{ asset('') }}scripts/ui-include.js"></script>
+  <script src="{{ asset('') }}scripts/ui-device.js"></script>
+  <script src="{{ asset('') }}scripts/ui-form.js"></script>
+  <script src="{{ asset('') }}scripts/ui-nav.js"></script>
+  <script src="{{ asset('') }}scripts/ui-screenfull.js"></script>
+  <script src="{{ asset('') }}scripts/ui-scroll-to.js"></script>
+  <script src="{{ asset('') }}scripts/ui-toggle-class.js"></script>
 
-  <script src="scripts/app.js"></script>
+  <script src="{{ asset('') }}scripts/app.js"></script>
 
   <!-- ajax -->
-  <script src="../libs/jquery/jquery-pjax/jquery.pjax.js"></script>
-  <script src="scripts/ajax.js"></script>
+  <script src="{{ asset('') }}libs/jquery/jquery-pjax/jquery.pjax.js"></script>
+  <script src="{{ asset('') }}scripts/ajax.js"></script>
+  <!-- datatable -->
+  <script type="text/javascript" src="{{ asset('') }}assets/DataTables/datatables.min.js"></script>
+
   <script>
     $('.profile-sett').click(() => {
       var displayMenuProfile = $('.menu-setting').css('display')
@@ -147,6 +153,10 @@
         }, 500)
       }
     })
+
+    if($('.app-aside').css('width') > '180px') {
+        $('.menu-position').hide();
+    }
   </script>
 <!-- endbuild -->
 @yield('scripts')

@@ -38,7 +38,7 @@
         <div class="menu-setting">
             <a href=""><i class="fa fa-user"></i> &nbsp; Profile</a>
             <a href=""><i class="fa fa-cog"></i> &nbsp; Setting</a>
-            <a href="{{ url('') }}/logout"><i class="fa fa-power-off"></i> &nbsp; Logout </a>
+            <a href="{{ url('logout') }}"><i class="fa fa-power-off"></i> &nbsp; Logout </a>
         </div>
         <!-- / navbar collapse -->
     </div>

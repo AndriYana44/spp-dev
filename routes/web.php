@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\SiswaController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('siswa')->group(function() {
         Route::get('/', [SiswaController::class, 'index']);
         Route::post('/upload', [SiswaController::class, 'importCsv']);
+        Route::get('/data-siswa', [SiswaController::class, 'dataSiswa']);
     });
 
     Route::post('file-import', [UserController::class, 'fileImport'])->name('file-import');
 });
+
+Route::get('/logout', [AuthenticatedSessionController::class, 'destroy']);

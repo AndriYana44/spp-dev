@@ -157,8 +157,8 @@
 </div>
 <script src="../libs/jquery/jquery/dist/jquery.js"></script>
 <script>
-    const num_one = Math.round(Math.random() * (1, 100))
-    const num_two = Math.round(Math.random() * (1, 100))
+    const num_one = Math.round(Math.random() * (1, 20))
+    const num_two = Math.round(Math.random() * (1, 20))
 
     const el_one = document.querySelector('.one')
     const el_two = document.querySelector('.two')

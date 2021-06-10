@@ -29,7 +29,8 @@
   <link rel="stylesheet" href="../assets/styles/font.css" type="text/css" />
   <!-- DataTable -->
   <link rel="stylesheet" type="text/css" href="{{ asset('') }}assets/DataTables/datatables.min.css"/>
-
+  <!-- My css -->
+  <link rel="stylesheet" href="{{ asset('') }}css/modal.css">
 </head>
 <body>
   <div class="app" id="app">
@@ -75,7 +76,9 @@
   <div id="content" class="app-content box-shadow-z2 box-radius-1x" role="main">
 
     <!-- navbar -->
-    @include('layouts/navbar')
+    @component('layouts/navbar')
+
+    @endcomponent
 
     <!-- ############ PAGE START-->
     <div class="row-col b-b">
@@ -157,6 +160,10 @@
     if($('.app-aside').css('width') > '180px') {
         $('.menu-position').hide();
     }
+
+    setTimeout(function() {
+        $('.alert').slideUp('slow')
+    }, 3000)
   </script>
 <!-- endbuild -->
 @yield('scripts')

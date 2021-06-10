@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Mst;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SiswaDetail extends Model
+class Kelas extends Model
 {
     use HasFactory;
-    protected $table = 'mst_siswa_detail';
+    protected $table = 'mst_kelas';
 }

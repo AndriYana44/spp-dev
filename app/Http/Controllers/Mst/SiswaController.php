@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Mst;
 
-use App\Models\Siswa;
-use App\Models\SiswaDetail;
+use App\Http\Controllers\Controller;
+use App\Models\Mst\Jurusan;
+use App\Models\Mst\Kelas;
+use App\Models\Mst\Siswa;
+use App\Models\Mst\SiswaDetail;
 use Illuminate\Http\Request;
 use DataTables;
 
@@ -11,7 +14,7 @@ class SiswaController extends Controller
 {
     public function index()
     {
-        return view('siswa/siswa');
+        return view('mst/siswa/siswa');
     }
 
     public function dataSiswa()
@@ -61,7 +64,7 @@ class SiswaController extends Controller
 
             $data = array_combine($escapedHeader, $columns);
             // data for mst_siswa
-            $nama = $data['nama'];
+            $nama = strtolower($data['nama']);
             $nis = $data['nis'];
             $nisn = $data['nisn'];
             $kelas = $data['kelas'];
@@ -79,6 +82,9 @@ class SiswaController extends Controller
             $kecamatan = $data['kecamatan'];
             $pos = $data['pos'];
             $transportasi = $data['transportasi'];
+
+            $emailGenerate = (explode(" ",$nama));
+            $emailGenerate = $emailGenerate[0].'.'.$nis.'@gmail.com';
 
             $siswa = new Siswa;
             $siswa->nama = $nama;
@@ -103,6 +109,12 @@ class SiswaController extends Controller
             $siswa_detail->id_siswa = $siswa->id;
             $siswa_detail->save();
 
+            $user = new User;
+            $user->name = $nama;
+            $user->email = $emailGenerate;
+            $user->username = $nis;
+            $user->password = Hash::make(substr($nis, 0, 4));
+            $user->save();
         }
 
         return redirect()->back()->with([
@@ -113,7 +125,12 @@ class SiswaController extends Controller
 
     public function create()
     {
-        //
+        $kelas = Kelas::all();
+        $jurusan = Jurusan::all();
+        return view('mst.siswa.form-tambah-siswa', [
+            'kelas' => $kelas,
+            'jurusan' => $jurusan,
+        ]);
     }
 
     /**

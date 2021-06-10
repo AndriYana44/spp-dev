@@ -43,8 +43,8 @@
                     </a>
                   </li>
                   <li>
-                    <a href="contact.html" >
-                      <span class="nav-text">Contacts</span>
+                    <a href="{{ url('') }}/jurusan" >
+                      <span class="nav-text">Jurusan</span>
                     </a>
                   </li>
                   <li>

@@ -70,63 +70,6 @@
     </div>
 </div>
 
-<style>
-    .modal-form {
-        display: none;
-        position: fixed;
-        background-color: rgba(0, 0, 0, .5);
-        z-index: 9991;
-        top: 0;
-        justify-content: center;
-        align-items: center;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        flex-direction: column;
-        overflow: auto;
-    }
-    .modal-body {
-        position: relative;
-        width: max-content;
-        height: max-content;
-        padding: 50px;
-        border-bottom-left-radius: 3px;
-        border-bottom-right-radius: 3px;
-        background-color: #FFF;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    .modal-head {
-        position: absolute;
-        top: -30px;
-        left: 0;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        height: 45px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        background-color: rgb(237, 237, 237);
-        border-bottom: 1px solid rgba(0, 0, 0, .2);
-    }
-    span.modal-title, span.close{
-        padding: 10px;
-        color: rgb(79, 79, 79);
-    }
-    .modal-title {
-        font-size: 18px;
-    }
-    .close {
-        font-size: 25px;
-    }
-    .modal-body * {
-        margin-top: 15px;
-    }
-</style>
-
 <!-- Modal -->
 <div class="modal-form">
     <div class="modal-body">
@@ -135,7 +78,7 @@
             <span class="close close-modal">&times;</span>
         </div>
         <button class="btn btn-success csv">Import format CSV</button>
-        <a class="btn btn-primary manual" href="#">Tambah Data Manual</a>
+        <a class="btn btn-primary manual" href="{{ url('') }}/siswa/tambah-data">Tambah Data Manual</a>
     </div>
 </div>
 <!-- / modal -->
@@ -170,9 +113,9 @@
                 $('.manual').hide()
                 $('.close-modal').hide()
                 $('.modal-body').prepend(`
-                    <form class="form-add-csv" action="" method="post" enctype="multipart/form-data">
+                    <form class="form-add-csv" action="{{ url('') }}/siswa/upload" method="post" enctype="multipart/form-data">
                         @csrf
-                        <input type="file" class="form-control">
+                        <input type="file" class="form-control" name="upload_file">
                         <button type="submit" class="btn btn-primary">Import</button>
                         <a class="cancel-csv btn btn-dark">cancel</a>
                     </form>

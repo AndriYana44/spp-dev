@@ -168,6 +168,7 @@
             $('.csv').click(function() {
                 $('.csv').hide()
                 $('.manual').hide()
+                $('.close-modal').hide()
                 $('.modal-body').prepend(`
                     <form class="form-add-csv" action="" method="post" enctype="multipart/form-data">
                         @csrf
@@ -176,11 +177,14 @@
                         <a class="cancel-csv btn btn-dark">cancel</a>
                     </form>
                 `)
+                $('.modal-title').html('Input data .csv')
             })
             $(document).on('click', '.cancel-csv', function() {
                 $('.csv').show()
                 $('.manual').show()
                 $('.form-add-csv').hide()
+                $('.close-modal').show()
+                $('.modal-title').html('Tambah data')
             })
         })
     </script>

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMstJurusan extends Migration
+class CreateUsersR extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateMstJurusan extends Migration
      */
     public function up()
     {
-        Schema::create('mst_jurusan', function (Blueprint $table) {
+        Schema::create('users_r', function (Blueprint $table) {
             $table->id();
-            $table->string('id_jurusan')->unique();
-            $table->string('jurusan')->unique();
-            $table->boolean('is_deleted')->default(0);
+            $table->integer('id_user');
+            $table->integer('id_siswa');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateMstJurusan extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mst_jurusan');
+        Schema::dropIfExists('users_r');
     }
 }

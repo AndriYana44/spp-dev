@@ -22,16 +22,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('dashborad');
     });
 
+    Route::get('/dashboard', function () {
+        return view('dashborad');
+    });
+
     Route::prefix('siswa')->group(function() {
         Route::get('/', [SiswaController::class, 'index']);
         Route::post('/upload', [SiswaController::class, 'importCsv']);
         Route::get('/tambah-data', [SiswaController::class, 'create']);
         Route::get('/data-siswa', [SiswaController::class, 'dataSiswa']);
+        Route::post('/store', [SiswaController::class, 'store']);
+        Route::get('/edit/{id}', [SiswaController::class, 'edit']);
+        Route::get('/delete/{id}', [SiswaController::class, 'destroy']);
+        Route::patch('/update/{id}', [SiswaController::class, 'update']);
     });
 
     Route::prefix('jurusan')->group(function() {
         Route::get('/', [JurusanController::class, 'index']);
         Route::post('/add', [JurusanController::class, 'store']);
+        Route::patch('/update/{id}', [JurusanController::class, 'update']);
+        Route::get('/delete/{id}', [JurusanController::class, 'destroy']);
     });
 
     Route::post('file-import', [UserController::class, 'fileImport'])->name('file-import');

@@ -7,8 +7,11 @@ use App\Models\Mst\Jurusan;
 use App\Models\Mst\Kelas;
 use App\Models\Mst\Siswa;
 use App\Models\Mst\SiswaDetail;
+use App\Models\User;
+use App\Models\User_r;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Facades\Hash;
 
 class SiswaController extends Controller
 {
@@ -24,9 +27,9 @@ class SiswaController extends Controller
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('actions', function($data) {
-                $button = '<a href="#" class="btn btn-warning btn-sm">Edit</a>
-                <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                <a href="#" class="btn btn-info btn-sm">Detail</a>';
+                $button = '<a href="/siswa/edit/'.$data->id.'" class="btn btn-warning btn-sm">Edit</a>
+                <a href="/siswa/delete/'.$data->id.'" onclick="return confirm(\'Lanjutkan menghapus data?\')" class="btn btn-danger btn-sm">Delete</a>
+                <a href="/siswa/detail/'.$data->id.'" class="btn btn-info btn-sm">Detail</a>';
                 return $button;
             })
             ->rawColumns(['actions'])
@@ -115,6 +118,11 @@ class SiswaController extends Controller
             $user->username = $nis;
             $user->password = Hash::make(substr($nis, 0, 4));
             $user->save();
+
+            $user_r = new User_r;
+            $user_r->id_siswa = $siswa->id;
+            $user_r->id_user = $user->id;
+            $user_r->save();
         }
 
         return redirect()->back()->with([
@@ -133,59 +141,96 @@ class SiswaController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $siswa = new Siswa;
+        $siswa->nama = $request->nama;
+        $siswa->nis = $request->nis;
+        $siswa->nisn = $request->nisn;
+        $siswa->kelas = $request->kelas.'-'.$request->jurusan;
+        $siswa->jk = $request->jk;
+        $siswa->tgl_lahir = $request->tglLahir;
+        $siswa->save();
+
+        $siswa_detail = new SiswaDetail;
+        $siswa_detail->kota_lahir = $request->kota;
+        $siswa_detail->agama = $request->agama;
+        $siswa_detail->alamat = $request->alamat;
+        $siswa_detail->rt = $request->rt;
+        $siswa_detail->rw = $request->rw;
+        $siswa_detail->dusun = $request->dusun;
+        $siswa_detail->kelurahan = $request->kelurahan;
+        $siswa_detail->kecamatan = $request->kecamatan;
+        $siswa_detail->pos = $request->pos;
+        $siswa_detail->transportasi = $request->transportasi;
+        $siswa_detail->id_siswa = $siswa->id;
+        $siswa_detail->save();
+
+        $emailGenerate = (explode(" ",$request->nama));
+        $emailGenerate = $emailGenerate[0].'.'.$request->nis.'@gmail.com';
+
+        $user = new User;
+        $user->name = $request->nama;
+        $user->email = $emailGenerate;
+        $user->username = $request->nis;
+        $user->password = Hash::make(substr($request->nis, 0, 4));
+        $user->save();
+
+        $user_r = new User_r;
+        $user_r->id_siswa = $siswa->id;
+        $user_r->id_user = $user->id;
+        $user_r->save();
+
+        return redirect('/siswa')->with([
+            'success_add' => 'Data berhasil ditambahkan',
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Siswa  $siswa
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Siswa $siswa)
+    public function edit(Siswa $siswa, $id)
     {
-        //
+        $kelas = Kelas::all();
+        $jurusan = Jurusan::all();
+        $siswa = Siswa::where('id', $id)->get();
+
+        return view('mst.siswa.form-edit-siswa', [
+            'siswa' => $siswa,
+            'kelas' => $kelas,
+            'jurusan' => $jurusan
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Siswa  $siswa
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Siswa $siswa)
+    public function update(Request $request, $id)
     {
-        //
+        Siswa::find($id)->update([
+            'nama' => $request->nama,
+            'nis' => $request->nis,
+            'nisn' => $request->nisn,
+            'kelas' => $request->kelas,
+            'jk' => $request->jk,
+            'tgl_lahir' => $request->tgl_lahir
+        ]);
+
+        return redirect('/siswa')->with([
+            'success_edit' => 'Data berhasil diubah',
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Siswa  $siswa
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Siswa $siswa)
+    public function destroy(Siswa $siswa, $id)
     {
-        //
-    }
+        $data_id = User_r::where('id_siswa', $id)->get();
+        $id_user = $data_id->first()->id_user;
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Siswa  $siswa
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Siswa $siswa)
-    {
-        //
+        $siswa = Siswa::find($id)->delete();
+        if($siswa) {
+            $siswa_detail = SiswaDetail::where('id_siswa', $id)->delete();
+            if($siswa_detail) {
+                $user_r = User_r::where('id_siswa', $id);
+                $user = User::find($id_user)->delete();
+            }
+        }
+
+        return redirect('/siswa')->with([
+            'success_del' => 'Data berhasil dihapus',
+        ]);
     }
 }

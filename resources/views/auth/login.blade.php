@@ -118,6 +118,16 @@
         position: absolute;
         top: 0;
     }
+    @media only screen and (max-width: 1080px) {
+        .card{
+            width: 50%;
+        }
+    }
+    @media only screen and (max-width: 600px) {
+        .card{
+            width: 80%;
+        }
+    }
 </style>
 <div class="container">
     <div class="login-display">

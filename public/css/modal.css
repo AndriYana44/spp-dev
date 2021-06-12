@@ -1,4 +1,4 @@
-.modal-form {
+.modal-form, .modal-form-edit {
     display: none;
     position: fixed;
     background-color: rgba(0, 0, 0, .5);

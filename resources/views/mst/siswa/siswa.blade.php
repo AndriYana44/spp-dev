@@ -49,6 +49,18 @@
         <div class="alert alert-success" role="alert">
             {{ $message }}
         </div>
+        @elseif ($message = Session::get('success_add'))
+        <div class="alert alert-success" role="alert">
+            {{ $message }}
+        </div>
+        @elseif ($message = Session::get('success_del'))
+        <div class="alert alert-success" role="alert">
+            {{ $message }}
+        </div>
+        @elseif ($message = Session::get('success_edit'))
+        <div class="alert alert-warning" role="alert">
+            {{ $message }}
+        </div>
         @endif
         <div class="container">
             <div class="row">

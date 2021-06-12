@@ -40,6 +40,7 @@ class JurusanController extends Controller
     public function store(Request $request)
     {
         $jurusan = new Jurusan;
+        $jurusan->id_jurusan = $request->id_jurusan;
         $jurusan->jurusan = $request->jurusan;
         $jurusan->save();
 
@@ -77,9 +78,16 @@ class JurusanController extends Controller
      * @param  \App\Models\Jurusan  $jurusan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Jurusan $jurusan)
+    public function update(Request $request, $id)
     {
-        //
+        Jurusan::find($id)->update([
+            'id_jurusan' => $request->id_jurusan,
+            'jurusan' => $request->jurusan
+        ]);
+
+        return redirect('/jurusan')->with([
+            'success_edit' => 'Data berhasil diubah',
+        ]);
     }
 
     /**
@@ -88,8 +96,11 @@ class JurusanController extends Controller
      * @param  \App\Models\Jurusan  $jurusan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Jurusan $jurusan)
+    public function destroy($id)
     {
-        //
+        Jurusan::find($id)->delete();
+        return redirect('/jurusan')->with([
+            'success_del' => 'Data berhasil di hapus',
+        ]);
     }
 }

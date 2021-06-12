@@ -35,111 +35,131 @@
     }
 </style>
 <div class="menu-position">
-    <small>Dashboard / siswa</small>
+    <small>Dashboard / siswa / tambah-data</small>
 </div>
 
 <div class="card">
     <div class="card-header">
         <h4>Tambah data Siswa</h4>
     </div>
+    <i><small class="text-info">* isi semua data dengan benar</small></i>
+    <br>
+    <span class="text-info"><small>* Data siswa</small></span>
     <div class="card-body">
-        <div class="row justify-content-center">
+        <div class="card shadow" style="margin-top: 0;">
+        <div class="row">
             <div class="col-sm-12">
-                <form action="" method="POST">
+                <form action="{{ url('') }}/siswa/store" method="POST">
                     @csrf
                     <div class="row">
-                        <div class="col-sm-4">
-                            <label for="nama">Nama : *</label>
-                            <input type="text" id="nama" class="form-control">
-                        </div>
-                        <div class="col-sm-4">
-                            <label for="nama">NIS : *</label>
-                            <input type="text" class="form-control">
-                        </div>
-                        <div class="col-sm-4">
-                            <label for="nama">NISN : *</label>
-                            <input type="text" class="form-control">
+                        <div class="col-sm-12">
+                            <div class="col-sm-4">
+                                <input autocomplete="off" placeholder="Nama" name="nama" autofocus required type="text" id="nama">
+                            </div>
+                            <div class="col-sm-4">
+                                <input autocomplete="off" placeholder="NIS" required name="nis" type="text">
+                            </div>
+                            <div class="col-sm-4">
+                                <input autocomplete="off" placeholder="NISN" required type="text" name="nisn">
+                            </div>
                         </div>
                     </div>
+                    <hr>
+                    <span class="text-info"><small>* Informasi siswa</small></span>
                     <div class="row" style="margin-top: 30px">
-                        <div class="col-sm-2">
-                            <label for="nama">Kelas : *</label>
-                            <select name="kelas" id="kelas" class="form-control">
-                                @foreach ($kelas as $item)
-                                <option value="{{ $item->kelas }}">{{ $item->kelas }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-sm-2">
-                            <label for="nama">Jurusan : *</label>
-                            <select name="kelas" id="kelas" class="form-control">
-                                @foreach ($jurusan as $item)
-                                <option value="{{ $item->jurusan }}">{{ $item->jurusan }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-sm-2">
-                            <label for="nama">Jenis Kelamin : *</label>
-                            <select name="kelas" id="kelas" class="form-control">
-                                <option value="L">L</option>
-                                <option value="P">P</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-3">
-                            <label for="">Tanggal Lahir : *</label>
-                            <input type="date" class="form-control" name="tglLahir">
-                        </div>
-                        <div class="col-sm-3">
-                            <label for="">Kota Lahir : *</label>
-                            <input type="text" class="form-control" name="kota">
+                        <div class="col-sm-12">
+                            <div class="col-sm-2">
+                                <label for="nama">Jenis Kelamin : *</label>
+                                <select name="jk" id="kelas">
+                                    <option value="L">Laki-laki</option>
+                                    <option value="P">Perempuan</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="nama">Kelas : *</label>
+                                <select name="kelas" id="kelas">
+                                    @foreach ($kelas as $item)
+                                    <option value="{{ $item->kelas }}">{{ $item->kelas }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="nama">Jurusan : *</label>
+                                <select name="jurusan" id="kelas">
+                                    @foreach ($jurusan as $item)
+                                    <option value="{{ $item->id_jurusan }}">{{ $item->jurusan }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
+                    <div class="row" style="margin-top: 20px">
+                        <div class="col-sm-12">
+                            <div class="col-sm-3">
+                                <label for="">Tanggal Lahir : *</label>
+                                <input autocomplete="off" required type="date" name="tglLahir">
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="">Kota Lahir : *</label>
+                                <input autocomplete="off" required type="text" name="kota">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <span class="text-info"><small>* Informasi detail</small></span>
                     <div class="row" style="margin-top: 30px">
-                        <div class="col-sm-3">
-                            <label for="">Agama : *</label>
-                            <input type="text" name="agama" class="form-control">
-                        </div>
-                        <div class="col-sm-3">
-                            <label for="">Alamat : *</label>
-                            <input type="text" name="alamat" class="form-control">
-                        </div>
-                        <div class="col-sm-4">
-                            <label for="">Dusun : *</label>
-                            <input type="text" name="dusun" class="form-control">
-                        </div>
-                        <div class="col-sm-1">
-                            <label for="">RT : *</label>
-                            <input type="number" name="rt" class="form-control">
-                        </div>
-                        <div class="col-sm-1">
-                            <label for="">RW : *</label>
-                            <input type="number" name="rw" class="form-control">
+                        <div class="col-sm-12">
+                            <div class="col-sm-3">
+                                <input autocomplete="off" placeholder="Agama" required type="text" name="agama">
+                            </div>
+                            <div class="col-sm-2">
+                                <input autocomplete="off" placeholder="Dusun" required type="text" name="dusun">
+                            </div>
+                            <div class="col-sm-2">
+                                <input autocomplete="off" placeholder="RT" required type="number" name="rt">
+                            </div>
+                            <div class="col-sm-2">
+                                <input autocomplete="off" placeholder="RW" required type="number" name="rw">
+                            </div>
                         </div>
                     </div>
-                    <div class="row" style="margin-top: 30px; margin-bottom: 30px">
-                        <div class="col-sm-3">
-                            <label for="">Kelurahan</label>
-                            <input type="text" name="kelurahan" class="form-control">
-                        </div>
-                        <div class="col-sm-3">
-                            <label for="">Kecamatan : *</label>
-                            <input type="text" name="kecamatan" class="form-control">
-                        </div>
-                        <div class="col-sm-4">
-                            <label for="">Transportasi : *</label>
-                            <input type="text" name="transportasi" class="form-control">
-                        </div>
-                        <div class="col-sm-2">
-                            <label for="">POS : *</label>
-                            <input type="number" name="pos" class="form-control">
+                    <div class="row" style="margin-top: 30px; margin-bottom: 10px">
+                        <div class="col-sm-12">
+                            <div class="col-sm-3">
+                                <input autocomplete="off" placeholder="Kelurahan" required type="text" name="kelurahan">
+                            </div>
+                            <div class="col-sm-3">
+                                <input autocomplete="off" placeholder="Kecamatan" required type="text" name="kecamatan">
+                            </div>
+                            <div class="col-sm-3">
+                                <input autocomplete="off" placeholder="Transportasi" required type="text" name="transportasi">
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <a href="{{ url('') }}/siswa" class="btn btn-secondary">Cancel</a>
+                    <div class="row" style="margin-bottom: 20px">
+                        <div class="col-sm-12">
+                            <div class="col-sm-2">
+                                <input autocomplete="off" placeholder="Kode pos" required type="number" name="pos">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-12" style="display: flex; flex-direction: column; margin-bottom: 20px">
+                                <label for="alamat">Tulis kembali alamat (Alamat lengkap) : *</label>
+                                <textarea name="alamat" id="alamat" cols="80" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <a href="{{ url('') }}/siswa" class="btn btn-secondary">Cancel</a>
+                        </div>
                     </div>
                 </form>
             </div>
+        </div>
         </div>
     </div>
 </div>

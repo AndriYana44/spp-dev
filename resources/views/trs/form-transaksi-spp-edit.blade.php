@@ -122,7 +122,7 @@
                             </div>
                             <div class="col-sm-4" style="margin-left: 70px">
                                 <label for="">Sisa Tagihan : *</label>
-                                <input type="text" class="sisa_disabled" name="sisa_bayar" value="Rp.{{ $siswa->first()->transaksi->sisa_bayar }}.00,-" disabled> <!-- disabled input -->
+                                <input type="text" class="sisa_disabled" name="sisa_bayar" value="Rp.{{ $siswa->first()->transaksi->sisa_bayar }},00-" disabled> <!-- disabled input -->
                                 <input type="text" class="sisa_hidden" name="sisa_bayar" value="0" hidden> <!-- hidden input -->
                             </div>
                         </div>
@@ -152,6 +152,9 @@
             var generate = Math.round(Math.random() * (100, 1000));
             $('input[name=no_transaksi]').attr('value', generate+'TRS-'+Date.now())
 
+            var sisa_tagihan = `{{ $siswa->first()->transaksi->sisa_bayar }}`
+            $('.sisa_disabled').attr('value', 'Rp.'+formatRupiah(sisa_tagihan)+'.00,-')
+
             // akumulasi tagihan
             $.get(`{{ url('') }}/transaksi/get-harga-spp`, function(res) {
                 res.forEach(function(val) {
@@ -161,12 +164,12 @@
                     $('.spp_harga').attr('value', tagihan)
 
                     //
-                    $('.tagihan').attr('value', `Rp.${tagihan}.00,-`)
+                    $('.tagihan').attr('value', 'Rp.'+formatRupiah(tagihan)+'.00,-')
 
                     $('.dibayar').on('keyup', '.jumlah', function(e) {
                         var jumlah = $('.jumlah').val()
                         var sisa = tagihan - jumlah
-                        $('.sisa_disabled').attr('value', `Rp.${sisa}.00,-`)
+                        $('.sisa_disabled').attr('value', `Rp.${formatRupiah(sisa)}.00,-`)
                         $('.sisa_hidden').attr('value', sisa)
                     })
                 })

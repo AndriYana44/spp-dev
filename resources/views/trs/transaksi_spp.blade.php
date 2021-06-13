@@ -319,9 +319,9 @@
                         $('td.nis').html(val.siswa.nis)
                         $('td.kelas').html(val.siswa.kelas)
                         $('td.transaksi').html(val.no_transaksi)
-                        $('td.bayar').html(val.bayar)
-                        $('td.tagihan').html(val.spp)
-                        $('td.sisa').html(val.sisa_bayar)
+                        $('td.bayar').html('Rp.'+formatRupiah(val.bayar)+'.00,-')
+                        $('td.tagihan').html('Rp.'+formatRupiah(val.spp)+'.00,-')
+                        $('td.sisa').html('Rp.'+formatRupiah(val.sisa_bayar)+'.00,-')
                         if(val.sisa_bayar > 0) {
                             $('td.status').html('Belum lunas')
                         }else if(val.sisa_bayar <= 0) {
@@ -331,6 +331,9 @@
                 })
             })
 
+            closeModal('.btn-close')
+            closeModal('.close-btn')
+
             function closeModal(selector) {
                 $(selector).click(function() {
                     $('.modal-detail').css('display', 'none');
@@ -338,8 +341,6 @@
                 return
             }
 
-            closeModal('.btn-close')
-            closeModal('.close-btn')
         })
     </script>
 @endsection

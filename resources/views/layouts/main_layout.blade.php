@@ -127,6 +127,9 @@
 
   <script src="{{ asset('') }}scripts/app.js"></script>
 
+  <!-- My js -->
+  <script src="{{ asset('') }}js/script.js"></script>
+
   <!-- ajax -->
   <script src="{{ asset('') }}libs/jquery/jquery-pjax/jquery.pjax.js"></script>
   <script src="{{ asset('') }}scripts/ajax.js"></script>

@@ -145,18 +145,18 @@
             $.get(`{{ url('') }}/transaksi/get-harga-spp`, function(res) {
                 res.forEach(function(val) {
                     var tagihan = val.harga_spp - (val.harga_spp * val.diskon / 100)
-                    $('.sisa_disabled').attr('value', `Rp.${tagihan}.00,-`)
+                    $('.sisa_disabled').attr('value', `Rp.${formatRupiah(tagihan)}.00,-`)
                     $('.sisa_hidden').attr('value', tagihan)
                     // Masukan harga spp ke input spp
                     $('.spp_harga').attr('value', tagihan)
 
                     //
-                    $('.tagihan').attr('value', `Rp.${tagihan}.00,-`)
+                    $('.tagihan').attr('value', `Rp.${formatRupiah(tagihan)}.00,-`)
 
                     $('.dibayar').on('keyup', '.jumlah', function(e) {
                         var jumlah = $('.jumlah').val()
                         var sisa = tagihan - jumlah
-                        $('.sisa_disabled').attr('value', `Rp.${sisa}.00,-`)
+                        $('.sisa_disabled').attr('value', `Rp.${formatRupiah(sisa)}.00,-`)
                         $('.sisa_hidden').attr('value', sisa)
                     })
                 })

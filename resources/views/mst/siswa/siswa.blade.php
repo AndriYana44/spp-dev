@@ -1,39 +1,5 @@
 @extends('layouts.main_layout')
 @section('content')
-<style>
-    .menu-position {
-        margin-top: 2rem;
-        position: absolute;
-        left: 0;
-        height: 40px;
-        width: 100%;
-        background-color: rgb(225, 225, 225);
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        padding-right: 40px;
-        color: #777;
-    }
-    .card {
-        margin-top: 5.5rem;
-        padding: 20px;
-        width: 100%;
-        height: max-content;
-    }
-    .card-body {
-        padding-top: 20px;
-    }
-    .card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: relative;
-    }
-    .card-header button {
-        position: absolute;
-        right: 20px;
-    }
-</style>
 <div class="menu-position">
     <small>Dashboard / siswa</small>
 </div>

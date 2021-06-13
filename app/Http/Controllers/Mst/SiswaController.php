@@ -7,6 +7,7 @@ use App\Models\Mst\Jurusan;
 use App\Models\Mst\Kelas;
 use App\Models\Mst\Siswa;
 use App\Models\Mst\SiswaDetail;
+use App\Models\Trs\TransaksiInfo;
 use App\Models\User;
 use App\Models\User_r;
 use Illuminate\Http\Request;

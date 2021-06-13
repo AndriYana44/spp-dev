@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Mst\JurusanController;
 use App\Http\Controllers\Mst\SiswaController;
+use App\Http\Controllers\Trs\TransaksiSppController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
@@ -42,6 +43,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/add', [JurusanController::class, 'store']);
         Route::patch('/update/{id}', [JurusanController::class, 'update']);
         Route::get('/delete/{id}', [JurusanController::class, 'destroy']);
+    });
+
+    Route::prefix('transaksi')->group(function() {
+        Route::get('/', [TransaksiSppController::class, 'index']);
+        Route::get('/add', [TransaksiSppController::class, 'create']);
+        Route::post('/store', [TransaksiSppController::class, 'store']);
+        Route::get('/edit/{id}', [TransaksiSppController::class, 'edit']);
+
+        // set herga spp
+        Route::post('/set-harga-spp/set', [TransaksiSppController::class, 'setSppHarga']);
+
+        // get data siswa (json)
+        Route::get('/get-siswa/{id}', [TransaksiSppController::class, 'getSiswa']);
+        Route::get('/set-harga-spp', [TransaksiSppController::class, 'createSppHarga']);
+
+        // get harga spp
+        Route::get('/get-harga-spp', [TransaksiSppController::class, 'getHargaSpp']);
     });
 
     Route::post('file-import', [UserController::class, 'fileImport'])->name('file-import');

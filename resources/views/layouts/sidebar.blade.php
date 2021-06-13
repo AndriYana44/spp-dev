@@ -67,30 +67,30 @@
                   <span class="nav-text">Transaksi</span>
                 </a>
                 <ul class="nav-sub">
-                  <li>
-                    <a href="headers.html" >
-                      <span class="nav-text">Pembayaran SPP</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="headers.html" >
-                      <span class="nav-text">Set Diskon</span>
-                    </a>
-                  </li>
+                    <li>
+                        <a href="{{ url('') }}/transaksi" >
+                            <span class="nav-text">Pembayaran SPP</span>
+                        </a>
+                    </li>
                 </ul>
-              </li>
+            </li>
 
-              <li>
+            <li>
                 <a>
-                  <span class="nav-caret">
-                    <i class="fa fa-caret-down"></i>
-                  </span>
-                  <span class="nav-icon">
-                    <i class="fa fa-cog"></i>
-                  </span>
+                    <span class="nav-caret">
+                        <i class="fa fa-caret-down"></i>
+                    </span>
+                    <span class="nav-icon">
+                        <i class="fa fa-cog"></i>
+                    </span>
                   <span class="nav-text">Configurasi</span>
                 </a>
                 <ul class="nav-sub">
+                <li>
+                    <a href="{{ url('') }}/transaksi/set-harga-spp" >
+                        <span class="nav-text">Set harga SPP</span>
+                    </a>
+                </li>
                   <li>
                     <a href="headers.html" >
                       <span class="nav-text">Hak akses</span>

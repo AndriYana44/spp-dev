@@ -109,13 +109,13 @@
                                         <td class="text-center"><span class="paid">Paid</span></td>
                                         <td class="text-center">
                                             <button class="btn btn-warning btn-sm" disabled>Edit Pembayaran</button>
-                                            <a href="{{ url('') }}/transaksi/detail/{{ $item->id }}" class="btn btn-info btn-sm">Detail</a>
+                                            <a href="" class="btn btn-info btn-sm detail" data-id="{{ $item->id }}">Detail</a>
                                         </td>
                                         @elseif ($item->is_pending == 1)
                                         <td class="text-center"><span class="pending">Pending</span></td>
                                         <td class="text-center">
                                             <a href="{{ url('') }}/transaksi/edit/{{ $item->siswa->id }}" class="btn btn-warning btn-sm">Edit Pembayaran</a>
-                                            <a href="{{ url('') }}/transaksi/detail/{{ $item->id }}" class="btn btn-info btn-sm">Detail</a>
+                                            <a href="" class="btn btn-info btn-sm detail" data-id="{{ $item->id }}">Detail</a>
                                         </td>
                                         @endif
                                 </tr>
@@ -159,6 +159,131 @@
         </div>
     </div>
 </div>
+
+<style>
+    .modal-detail {
+        z-index: 9999;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, .5);
+    }
+    .modal-detail-content {
+        width: 41%;
+        height: 50%;
+        border-radius: 8px;
+        background-color: #fff;
+        position: relative;
+    }
+    .modal-left {
+        width: 50px;
+        padding: 30px 10px 0 30px;
+    }
+    .modal-left img {
+        width: 150px;
+    }
+    .modal-left .data-siswa {
+        padding: 10px;
+        margin-top: 10px;
+        width: 350px;
+        font-weight: 600;
+    }
+    .modal-right {
+        position: absolute;
+        right: 30px;
+        top: 30px;
+    }
+    .close-btn {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        font-size: 25px;
+        font-weight: 600;
+        color: #666;
+        cursor: pointer;
+    }
+    .close-btn:hover {
+        color: #333;
+    }
+    .btn-close {
+        position: absolute;
+        width: 55px;
+        height: 30px;
+        border: none;
+        color: #FFF;
+        background-color: #666;
+        border-radius: 5px;
+        right: 15px;
+        bottom: 10px;
+        font-size: 14px;
+    }
+</style>
+
+<!-- modal detail -->
+<div class="modal-detail">
+    <div class="modal-detail-content">
+        <span class="close-btn">&times;</span>
+        <button class="btn-close">Close</button>
+        <div class="modal-left">
+            <img src="{{ asset('') }}img/user.png" alt="...">
+            <div class="data-siswa">
+                <table>
+                    <tr>
+                        <td>Nama</td>
+                        <td>&nbsp;:&nbsp;</td>
+                        <td class="nama"></td>
+                    </tr>
+                    <tr>
+                        <td>NIS</td>
+                        <td>&nbsp;:&nbsp;</td>
+                        <td class="nis"></td>
+                    </tr>
+                    <tr>
+                        <td>Kelas</td>
+                        <td>&nbsp;:&nbsp;</td>
+                        <td class="kelas"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="modal-right">
+            <h4>Transaksi</h4>
+            <table>
+                <tr>
+                    <td>Nomor Transaksi</td>
+                    <td>&nbsp;:&nbsp;</td>
+                    <td class="transaksi"></td>
+                </tr>
+                <tr>
+                    <td>Telah membayar</td>
+                    <td>&nbsp;:&nbsp;</td>
+                    <td class="bayar"></td>
+                </tr>
+                <tr>
+                    <td>Tagihan</td>
+                    <td>&nbsp;:&nbsp;</td>
+                    <td class="tagihan"></td>
+                </tr>
+                <tr>
+                    <td>Sisa bayar</td>
+                    <td>&nbsp;:&nbsp;</td>
+                    <td class="sisa"></td>
+                </tr>
+                <tr>
+                    <td>Status Pembayaran</td>
+                    <td>&nbsp;:&nbsp;</td>
+                    <td class="status"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
 @endsection
 @section('scripts')
     <script>
@@ -183,6 +308,38 @@
             $('.add-transaksi').click(function() {
                 window.location.href = `{{ url('') }}/transaksi/add`
             })
+
+            $('.detail').click(function(e) {
+                e.preventDefault()
+                $('.modal-detail').css('display', 'flex')
+                var id = $(this).data('id')
+                $.get(`{{ url("") }}/transaksi/get-transaksi/${id}`, function(res) {
+                    res.forEach(function(val) {
+                        $('td.nama').html(val.siswa.nama)
+                        $('td.nis').html(val.siswa.nis)
+                        $('td.kelas').html(val.siswa.kelas)
+                        $('td.transaksi').html(val.no_transaksi)
+                        $('td.bayar').html(val.bayar)
+                        $('td.tagihan').html(val.spp)
+                        $('td.sisa').html(val.sisa_bayar)
+                        if(val.sisa_bayar > 0) {
+                            $('td.status').html('Belum lunas')
+                        }else if(val.sisa_bayar <= 0) {
+                            $('td.status').html('Sudah lunas')
+                        }
+                    })
+                })
+            })
+
+            function closeModal(selector) {
+                $(selector).click(function() {
+                    $('.modal-detail').css('display', 'none');
+                })
+                return
+            }
+
+            closeModal('.btn-close')
+            closeModal('.close-btn')
         })
     </script>
 @endsection

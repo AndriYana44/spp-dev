@@ -156,4 +156,11 @@ class TransaksiSppController extends Controller
             'success_add' => 'Transaksi berhasil',
         ]);
     }
+
+    public function getTransaksi($id)
+    {
+        $transaksi = TransaksiSpp::with('siswa')->where('id', $id)->get();
+
+        return response()->json($transaksi);
+    }
 }

@@ -62,6 +62,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // get harga spp
         Route::get('/get-harga-spp', [TransaksiSppController::class, 'getHargaSpp']);
+
+        //get transaksi
+        Route::get('/get-transaksi/{id}', [TransaksiSppController::class, 'getTransaksi']);
     });
 
     Route::post('file-import', [UserController::class, 'fileImport'])->name('file-import');

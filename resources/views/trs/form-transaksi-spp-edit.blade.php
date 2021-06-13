@@ -121,19 +121,9 @@
                                 <input type="text" class="kelas" value="{{ $siswa->first()->nisn }}" disabled>
                             </div>
                             <div class="col-sm-4" style="margin-left: 70px">
-                            <!-- jika siswa sudah pernah membayar -->
-                            @if ($siswa->first()->transaksi != null)
                                 <label for="">Sisa Tagihan : *</label>
-                                <input type="text" class="sisa_disabled" name="sisa_bayar" value="{{ $siswa->first()->transaksi->sisa_bayar }}" disabled> <!-- disabled input -->
+                                <input type="text" class="sisa_disabled" name="sisa_bayar" value="Rp.{{ $siswa->first()->transaksi->sisa_bayar }}.00,-" disabled> <!-- disabled input -->
                                 <input type="text" class="sisa_hidden" name="sisa_bayar" value="0" hidden> <!-- hidden input -->
-                            <!-- jika siswa belum pernah membayar -->
-                            @elseif ($siswa->first()->transaksi == null)
-                                <label for="">Sisa Tagihan : *</label>
-                                <input type="text" class="sisa_disabled" name="sisa_bayar" value="Rp.0,-" disabled> <!-- disabled input -->
-                                <input type="text" class="sisa_hidden" name="sisa_bayar" value="0" hidden> <!-- hidden input -->
-                            @endif
-                            <!-- // -->
-
                             </div>
                         </div>
                         <div class="form-group row">
@@ -166,7 +156,6 @@
             $.get(`{{ url('') }}/transaksi/get-harga-spp`, function(res) {
                 res.forEach(function(val) {
                     var tagihan = val.harga_spp - (val.harga_spp * val.diskon / 100)
-                    $('.sisa_disabled').attr('value', `Rp.${tagihan}.00,-`)
                     $('.sisa_hidden').attr('value', tagihan)
                     // Masukan harga spp ke input spp
                     $('.spp_harga').attr('value', tagihan)

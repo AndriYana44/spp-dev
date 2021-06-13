@@ -18,8 +18,12 @@ class TransaksiSppController extends Controller
         foreach($transaksi as $item) {
             $id_siswa_payment[] = $item->siswa->id;
         }
+        if($transaksi->first() != null) {
+            $siswa_unpaid = Siswa::whereNotIn('id', $id_siswa_payment)->get();
+        }else{
+            $siswa_unpaid = Siswa::all();
+        }
 
-        $siswa_unpaid = Siswa::whereNotIn('id', $id_siswa_payment)->get();
         $spp = TransaksiSppHarga::all();
         $sppHarga = $spp->first()->harga_spp - ($spp->first()->harga_spp * $spp->first()->diskon / 100);
 
@@ -37,12 +41,12 @@ class TransaksiSppController extends Controller
         return response()->json($data);
     }
 
-    public function create()
+    public function create($id)
     {
-        $siswa = Siswa::where('is_deleted', 0)->get();
+        $siswa = Siswa::where('is_deleted', 0)->where('id', $id)->get();
         $bulan = Bulan::all();
 
-        return view('trs.form-transaksi-spp', [
+        return view('trs.form-transaksi-spp-add', [
             'siswa' => $siswa,
             'bulan' => $bulan
         ]);
@@ -113,11 +117,43 @@ class TransaksiSppController extends Controller
     public function edit($id)
     {
         $bulan = Bulan::all();
-        $siswa = Siswa::where('id', $id)->get();
+        $siswa = Siswa::with('transaksi')->whereHas('transaksi', function($query) use ($id) {
+            $query->where('id_siswa', $id);
+        })->get();
 
         return view('trs.form-transaksi-spp-edit', [
             'siswa' => $siswa,
             'bulan' => $bulan,
+            'id' => $id
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $transaksi = TransaksiSpp::where('id_siswa', $id)->get();
+
+        TransaksiSpp::find($transaksi->first()->id)->update([
+            'no_transaksi' => $request->no_transaksi,
+            'bayar' => $request->dibayar,
+            'sisa_bayar' => $request->sisa_bayar,
+            'tahun' => $request->tahun,
+            'id_siswa' => $request->siswa,
+            'id_bulan' => $request->bulan,
+            'spp' => $request->spp,
+        ]);
+
+        if($request->sisa_bayar > 0) {
+            TransaksiSpp::find($transaksi->first()->id)->update([
+                'is_pending' => 1
+            ]);
+        }elseif($request->sisa_bayar <= 0) {
+            TransaksiSpp::find($transaksi->first()->id)->update([
+                'is_paid' => 1
+            ]);
+        }
+
+        return redirect('/transaksi')->with([
+            'success_add' => 'Transaksi berhasil',
         ]);
     }
 }

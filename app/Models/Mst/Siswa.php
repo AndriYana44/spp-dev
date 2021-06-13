@@ -15,7 +15,7 @@ class Siswa extends Model
 
     public function transaksi()
     {
-        return $this->hasOne(TransaksiSpp::class, 'id');
+        return $this->hasOne(TransaksiSpp::class, 'id_siswa');
     }
 
 }

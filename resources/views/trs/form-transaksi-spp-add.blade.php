@@ -73,7 +73,7 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <label for="">Tahun : *</label>
-                                        <input type="number" name="tahun" value="2021">
+                                        <input type="number" name="tahun" value="">
                                     </div>
                                 </div>
                             </div>
@@ -81,11 +81,8 @@
                         <div class="form-group row">
                             <div class="col-sm-4">
                                 <label for="">Siswa : *</label>
-                                <select name="siswa" id="siswa">
-                                    @foreach ($siswa as $item)
-                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" value="{{ $siswa->first()->nama }}" disabled>
+                                <input type="text" name="siswa" value="{{ $siswa->first()->id }}" hidden>
                             </div>
                             <div class="col-sm-4" style="margin-left: 70px">
                                 <label for="">Tagihan : *</label>
@@ -98,16 +95,19 @@
 
                         <div class="form-group row">
                             <div class="col-sm-4">
-                                <input type="text" class="nis" value="NIS:" disabled>
+                                <label for="">NIS : *</label>
+                                <input type="text" class="nis" value="{{ $siswa->first()->nis }}" disabled>
                             </div>
                             <div class="col-sm-4 dibayar" style="margin-left: 70px">
                                 <label for="">Jumlah dibayar : *</label>
                                 <input type="number" name="dibayar" class="jumlah" placeholder="Rp.0,-">
                             </div>
+
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-4">
-                                <input type="text" class="kelas" value="Kelas:" disabled>
+                                <label for="">NISN : *</label>
+                                <input type="text" class="kelas" value="{{ $siswa->first()->nisn }}" disabled>
                             </div>
                             <div class="col-sm-4" style="margin-left: 70px">
                                 <label for="">Sisa Tagihan : *</label>
@@ -141,22 +141,12 @@
             var generate = Math.round(Math.random() * (100, 1000));
             $('input[name=no_transaksi]').attr('value', generate+'TRS-'+Date.now())
 
-            // get nis siswa after change
-            $('select[name=siswa]').change(function() {
-                var id_siswa = $('select[name=siswa]').on('option:selected').val()
-                console.log(id_siswa)
-                $.get(`{{ url('') }}/transaksi/get-siswa/${id_siswa}`, function(res) {
-                    res.forEach((val) => {
-                        $('.nis').attr('value', `NIS: ${val.nis}`)
-                        $('.kelas').attr('value', `Kelas: ${val.kelas}`)
-                    })
-                })
-            })
-
             // akumulasi tagihan
             $.get(`{{ url('') }}/transaksi/get-harga-spp`, function(res) {
                 res.forEach(function(val) {
                     var tagihan = val.harga_spp - (val.harga_spp * val.diskon / 100)
+                    $('.sisa_disabled').attr('value', `Rp.${tagihan}.00,-`)
+                    $('.sisa_hidden').attr('value', tagihan)
                     // Masukan harga spp ke input spp
                     $('.spp_harga').attr('value', tagihan)
 
@@ -171,6 +161,9 @@
                     })
                 })
             })
+
+            var date = new Date()
+            $('input[name=tahun]').attr('value', date.getFullYear())
         })
     </script>
 @endsection

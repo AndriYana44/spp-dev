@@ -35,7 +35,7 @@
     }
 </style>
 <div class="menu-position">
-    <small>Dashboard / jurusan</small>
+    <small>Dashboard / master data / jurusan</small>
 </div>
 
 <div class="card">

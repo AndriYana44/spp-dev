@@ -49,7 +49,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [TransaksiSppController::class, 'index']);
         Route::get('/add', [TransaksiSppController::class, 'create']);
         Route::post('/store', [TransaksiSppController::class, 'store']);
+        Route::post('/update/{id}', [TransaksiSppController::class, 'update']);
         Route::get('/edit/{id}', [TransaksiSppController::class, 'edit']);
+        Route::get('/add/{id}', [TransaksiSppController::class, 'create']);
 
         // set herga spp
         Route::post('/set-harga-spp/set', [TransaksiSppController::class, 'setSppHarga']);

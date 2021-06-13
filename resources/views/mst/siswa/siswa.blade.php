@@ -1,7 +1,7 @@
 @extends('layouts.main_layout')
 @section('content')
 <div class="menu-position">
-    <small>Dashboard / siswa</small>
+    <small>Dashboard / master data / siswa</small>
 </div>
 
 <div class="card">

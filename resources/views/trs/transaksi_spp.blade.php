@@ -34,35 +34,37 @@
         right: 20px;
     }
     .status-btn {
+        margin-top: 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
     .status-btn button {
-        width: 50%;
+        width: 49.8%;
+        border: none;
         height: 35px;
-        border: 1px solid rgb(0, 181, 213);
-        background-color: rgb(0, 161, 189);
-        border-radius: 5px;
+        background-color: rgb(89, 186, 202);
+        border-radius: 3px;
         color: #FFF;
     }
     .status-btn button:hover {
-        background-color: rgb(0, 181, 213);
+        background-color: rgb(65, 172, 191);
+    }
+    .status-btn #active {
+        background-color: rgb(0, 161, 189);
     }
 </style>
 <div class="menu-position">
-    <small>Dashboard / siswa</small>
+    <small>Dashboard / Transaksi / pembayaran spp</small>
 </div>
 
 <div class="card">
     <div class="card-header">
         <h4>Data Transaksi</h4>
-        <button class="btn btn-success add-transaksi">
-            <i class="fa fa-plus"></i> Tambah Data</button>
     </div>
 
     <div class="status-btn">
-        <button class="pay">Data siswa yang telah membayar</button>
+        <button class="pay" id="active">Data siswa yang telah membayar</button>
         <button class="unpay">Data siswa yang belum membayar</button>
     </div>
     <div class="card-body">
@@ -102,18 +104,20 @@
                                     <td class="text-center">{{ $item->siswa->first()->nis }}</td>
                                     <td class="text-center">{{ $item->bayar }}</td>
                                     <td class="text-center">{{ $item->spp }}</td>
-                                    <td class="text-center">
+
                                         @if ($item->is_paid == 1)
-                                            <span class="paid">Paid</span>
+                                        <td class="text-center"><span class="paid">Paid</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-warning btn-sm" disabled>Edit Pembayaran</button>
+                                            <a href="{{ url('') }}/transaksi/detail/{{ $item->id }}" class="btn btn-info btn-sm">Detail</a>
+                                        </td>
                                         @elseif ($item->is_pending == 1)
-                                            <span class="pending">Pending</span>
-                                        @else
-                                            <span class="unpaid">Unpaid</span>
+                                        <td class="text-center"><span class="pending">Pending</span></td>
+                                        <td class="text-center">
+                                            <a href="{{ url('') }}/transaksi/edit/{{ $item->siswa->id }}" class="btn btn-warning btn-sm">Edit Pembayaran</a>
+                                            <a href="{{ url('') }}/transaksi/detail/{{ $item->id }}" class="btn btn-info btn-sm">Detail</a>
+                                        </td>
                                         @endif
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="#" class="btn btn-warning btn-sm">Edit Pembayaran</a>
-                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -134,6 +138,7 @@
                         </thead>
                         <tbody>
                             @foreach ($unpaid as $item)
+                            @if ($item != null)
                             <tr>
                                 <td>{{ $item->nama }}</td>
                                 <td class="text-center">{{ $item->nis }}</td>
@@ -141,9 +146,10 @@
                                 <td class="text-center">{{ $spp }}</td>
                                 <td class="text-center"><span class="unpaid">Unpaid</span></td>
                                 <td class="text-center">
-                                    <a href="{{ url('') }}/transaksi/edit/{{ $item->id }}" class="btn btn-warning btn-sm">Edit Pembayaran</a>
+                                    <a href="{{ url('') }}/transaksi/add/{{ $item->id }}" class="btn btn-success btn-sm">Pembayaran</a>
                                 </td>
                             </tr>
+                            @endif
                             @endforeach
                         </tbody>
                     </table>
@@ -163,11 +169,15 @@
             $('.unpay').click(() => {
                 $('.table-unpaid').removeAttr('hidden');
                 $('.table-paid').attr('hidden', 'on');
+                $('.unpay').attr('id', 'active');
+                $('.pay').removeAttr('id');
             })
 
             $('.pay').click(() => {
                 $('.table-paid').removeAttr('hidden');
                 $('.table-unpaid').attr('hidden', 'on');
+                $('.pay').attr('id', 'active');
+                $('.unpay').removeAttr('id');
             })
 
             $('.add-transaksi').click(function() {

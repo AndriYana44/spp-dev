@@ -53,7 +53,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <form action="{{ url('') }}/transaksi/store" method="POST">
+                    <form action="{{ url('') }}/transaksi/update/{{ $id }}" method="POST">
                         @csrf
                         <div class="form-group row">
                             <div class="col-sm-4">
@@ -82,7 +82,7 @@
                             <div class="col-sm-4">
                                 <label for="">Siswa : *</label>
                                 <input type="text" value="{{ $siswa->first()->nama }}" disabled>
-                                <input type="text" name="nama" value="{{ $siswa->first()->nama }}" hidden>
+                                <input type="text" name="siswa" value="{{ $siswa->first()->id }}" hidden>
                             </div>
                             <div class="col-sm-4" style="margin-left: 70px">
                                 <label for="">Tagihan : *</label>
@@ -98,10 +98,22 @@
                                 <label for="">NIS : *</label>
                                 <input type="text" class="nis" value="{{ $siswa->first()->nis }}" disabled>
                             </div>
-                            <div class="col-sm-4 dibayar" style="margin-left: 70px">
-                                <label for="">Jumlah dibayar : *</label>
-                                <input type="number" name="dibayar" class="jumlah" placeholder="Rp.0,-">
-                            </div>
+
+                            <!-- jika siswa sudah pernah membayar -->
+                            @if ($siswa->first()->transaksi != null)
+                                <div class="col-sm-4 dibayar" style="margin-left: 70px">
+                                    <label for="">Telah membayar : *</label>
+                                    <input type="number" name="dibayar" class="jumlah" value="{{ $siswa->first()->transaksi->bayar }}">
+                                </div>
+                            <!-- jika siswa belum pernah membayar -->
+                            @elseif ($siswa->first()->transaksi == null)
+                                <div class="col-sm-4 dibayar" style="margin-left: 70px">
+                                    <label for="">Jumlah dibayar : *</label>
+                                    <input type="number" name="dibayar" class="jumlah" placeholder="Rp.0,-">
+                                </div>
+                            @endif
+                            <!-- // -->
+
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-4">
@@ -109,9 +121,19 @@
                                 <input type="text" class="kelas" value="{{ $siswa->first()->nisn }}" disabled>
                             </div>
                             <div class="col-sm-4" style="margin-left: 70px">
+                            <!-- jika siswa sudah pernah membayar -->
+                            @if ($siswa->first()->transaksi != null)
+                                <label for="">Sisa Tagihan : *</label>
+                                <input type="text" class="sisa_disabled" name="sisa_bayar" value="{{ $siswa->first()->transaksi->sisa_bayar }}" disabled> <!-- disabled input -->
+                                <input type="text" class="sisa_hidden" name="sisa_bayar" value="0" hidden> <!-- hidden input -->
+                            <!-- jika siswa belum pernah membayar -->
+                            @elseif ($siswa->first()->transaksi == null)
                                 <label for="">Sisa Tagihan : *</label>
                                 <input type="text" class="sisa_disabled" name="sisa_bayar" value="Rp.0,-" disabled> <!-- disabled input -->
                                 <input type="text" class="sisa_hidden" name="sisa_bayar" value="0" hidden> <!-- hidden input -->
+                            @endif
+                            <!-- // -->
+
                             </div>
                         </div>
                         <div class="form-group row">

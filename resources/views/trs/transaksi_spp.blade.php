@@ -63,6 +63,7 @@
         <h4>Data Transaksi</h4>
     </div>
 
+    <div class="card shadow">
     <div class="status-btn">
         <button class="pay" id="active">Data siswa yang telah membayar</button>
         <button class="unpay">Data siswa yang belum membayar</button>
@@ -102,8 +103,8 @@
                                 <tr>
                                     <td>{{ $item->siswa->nama }}</td>
                                     <td class="text-center">{{ $item->siswa->first()->nis }}</td>
-                                    <td class="text-center">{{ $item->bayar }}</td>
-                                    <td class="text-center">{{ $item->spp }}</td>
+                                    <td class="text-center">Rp.{{ number_format($item->bayar,2,',','.') }}</td>
+                                    <td class="text-center">Rp.{{ number_format($item->spp,2,',','.') }}</td>
 
                                         @if ($item->is_paid == 1)
                                         <td class="text-center"><span class="paid">Paid</span></td>
@@ -157,6 +158,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </div>
 

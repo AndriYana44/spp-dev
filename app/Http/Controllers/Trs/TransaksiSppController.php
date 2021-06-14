@@ -8,7 +8,9 @@ use App\Models\Mst\Siswa;
 use App\Models\Trs\TransaksiInfo;
 use App\Models\Trs\TransaksiSpp;
 use App\Models\Trs\TransaksiSppHarga;
+use App\Models\User_r;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TransaksiSppController extends Controller
 {
@@ -106,6 +108,10 @@ class TransaksiSppController extends Controller
             $sppHarga->diskon = $request->price;
             $sppHarga->save();
         }
+
+        return redirect('/transaksi/set-harga-spp')->with([
+            'success' => 'Spp berhasil ditetapkan',
+        ]);
     }
 
     public function getHargaSpp()
@@ -162,5 +168,35 @@ class TransaksiSppController extends Controller
         $transaksi = TransaksiSpp::with('siswa')->where('id', $id)->get();
 
         return response()->json($transaksi);
+    }
+
+    public function tagihan($id)
+    {
+        $bulan = Bulan::all();
+        $tahun = DB::table('trs_transaksi_spp')
+            ->selectRaw('DISTINCT(tahun) as tahun')
+            ->get();
+
+        $user = User_r::where('id_user', $id)->get();
+        $user = $user->first()->id_siswa;
+        $siswa = Siswa::where('id', $user)->get();
+
+        return view('trs.tagihan', [
+            'bulan' => $bulan,
+            'tahun' => $tahun,
+            'siswa' => $siswa,
+            'id' => $user
+        ]);
+    }
+
+    public function getTagihan($id, $tahun, $bulan)
+    {
+        $tagihan = TransaksiSpp::with('siswa')->where([
+            ['id_siswa', '=', $id],
+            ['tahun', '=', $tahun],
+            ['id_bulan', '=', $bulan]
+        ])->get();
+
+        return response()->json($tagihan);
     }
 }

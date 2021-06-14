@@ -20,6 +20,11 @@
         <h4>Set Harga SPP</h4>
     </div>
     <div class="card-body">
+        @if ($message = Session::get('success'))
+        <div class="alert alert-success" role="alert">
+            {{ $message }}
+        </div>
+        @endif
         <form action="{{ url('') }}/transaksi/set-harga-spp/set" method="POST">
             @csrf
             <div class="row">

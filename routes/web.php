@@ -3,6 +3,7 @@
 use App\Http\Controllers\Mst\JurusanController;
 use App\Http\Controllers\Mst\SiswaController;
 use App\Http\Controllers\Trs\TransaksiSppController;
+use App\Models\Trs\TransaksiSpp;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
@@ -65,6 +66,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         //get transaksi
         Route::get('/get-transaksi/{id}', [TransaksiSppController::class, 'getTransaksi']);
+
+        // lihat tagihan persiswa
+        Route::get('/tagihan/{id}', [TransaksiSppController::class, 'tagihan']);
+        Route::get('/getTagihan/{id}/{tahun}/{bulan}', [TransaksiSppController::class, 'getTagihan']);
     });
 
     Route::post('file-import', [UserController::class, 'fileImport'])->name('file-import');

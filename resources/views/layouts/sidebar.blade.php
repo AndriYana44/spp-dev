@@ -100,6 +100,17 @@
               </li>
               @endif
 
+              @if (auth()->user()->id > 1)
+              <li>
+                <a href="{{ url('') }}/transaksi/tagihan/{{ auth()->user()->id }}">
+                    <span class="nav-icon">
+                        <i class="fa fa-money"></i>
+                    </span>
+                  <span class="nav-text">Lihat Tagihan</span>
+                </a>
+              </li>
+              @endif
+
             </ul>
         </nav>
       </div>

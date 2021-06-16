@@ -102,7 +102,7 @@
                             @foreach ($transaksi as $item)
                                 <tr>
                                     <td>{{ $item->siswa->nama }}</td>
-                                    <td class="text-center">{{ $item->siswa->first()->nis }}</td>
+                                    <td class="text-center">{{ $item->siswa->nis }}</td>
                                     <td class="text-center">Rp.{{ number_format($item->bayar,2,',','.') }}</td>
                                     <td class="text-center">Rp.{{ number_format($item->spp,2,',','.') }}</td>
 

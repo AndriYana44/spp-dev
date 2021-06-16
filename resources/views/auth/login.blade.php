@@ -148,7 +148,7 @@
             <form action="{{ route('login') }}" method="POST">
                 @csrf
                 <div class="input-login">
-                    <input type="text" autocomplete="off" name="username" placeholder="Username">
+                    <input type="text" autocomplete="off" autofocus name="username" placeholder="Username">
                     <input type="password" autocomplete="off" name="password" placeholder="Password">
                 </div>
                 <div class="captha">

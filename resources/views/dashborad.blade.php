@@ -29,7 +29,9 @@
         <h5 class="card-title" style="margin-bottom: 40px">Hallo, {{ auth()->user()->name }}</h5>
         <h6 class="card-subtitle mb-2 text-muted"></h6>
         <p class="card-text">Selamat datang di sistem pembayaran spp</p>
-        <a href="#" class="btn btn-primary btn-sm card-link">Lihat Tagihan</a>
+        @if (auth()->user()->id > 1)
+            <a href="#" class="btn btn-primary btn-sm card-link">Lihat Tagihan</a>
+        @endif
     </div>
 </div>
 @endsection

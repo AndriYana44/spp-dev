@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Trs;
 use App\Http\Controllers\Controller;
 use App\Models\Mst\Bulan;
 use App\Models\Mst\Siswa;
+use App\Models\TahunPeriode;
 use App\Models\Trs\TransaksiInfo;
 use App\Models\Trs\TransaksiSpp;
 use App\Models\Trs\TransaksiSppHarga;
@@ -25,9 +26,12 @@ class TransaksiSppController extends Controller
         }else{
             $siswa_unpaid = Siswa::all();
         }
-
         $spp = TransaksiSppHarga::all();
-        $sppHarga = $spp->first()->harga_spp - ($spp->first()->harga_spp * $spp->first()->diskon / 100);
+        if($spp->first() != null) {
+            $sppHarga = $spp->first()->harga_spp - ($spp->first()->harga_spp * $spp->first()->diskon / 100);
+        }else{
+            $sppHarga = '';
+        }
 
         return view('trs.transaksi_spp', [
             'transaksi' => $transaksi,
@@ -45,12 +49,16 @@ class TransaksiSppController extends Controller
 
     public function create($id)
     {
+        $periode_set = TahunPeriode::where('is_set', 1)->get();
+        $periode = TransaksiSppHarga::with(['tahun', 'bulan'])->where('id_tahun', $periode_set->first()->id)->get();
         $siswa = Siswa::where('is_deleted', 0)->where('id', $id)->get();
         $bulan = Bulan::all();
 
         return view('trs.form-transaksi-spp-add', [
             'siswa' => $siswa,
-            'bulan' => $bulan
+            'bulan' => $bulan,
+            'periode' => $periode,
+            'periode_set' => $periode_set
         ]);
     }
 
@@ -86,50 +94,57 @@ class TransaksiSppController extends Controller
             $diskon = $checkDataSpp->first()->diskon;
         }
 
+        $bulan = Bulan::all();
+
         return view('trs.set-harga-spp', [
             'harga' => $harga,
-            'diskon' => $diskon
+            'diskon' => $diskon,
+            'bulan' => $bulan
         ]);
     }
 
     public function setSppHarga(Request $request)
     {
-        $checkDataSpp = TransaksiSppHarga::all();
-        if($checkDataSpp->first() == null) {
-            $sppHarga = new TransaksiSppHarga;
-            $sppHarga->harga_spp = $request->spp;
-            $sppHarga->diskon = $request->price;
-            $sppHarga->save();
+        $tahun = TahunPeriode::where('is_set', 1)->get();
+        $bulan = Bulan::all();
+        $validasi = TransaksiSppHarga::where('id_bulan', $request->bulan)
+            ->where('id_tahun', $request->tahun)->get();
+        if($validasi->count() > 0) {
+            return redirect('/transaksi/set-harga-spp')->with([
+                'failed' => 'Data pada periode '. $bulan->where('id', $request->bulan)->first()->bulan .' - '. $tahun->first()->tahun .' sudah ada',
+            ]);
         }else{
-            TransaksiSppHarga::truncate();
-
             $sppHarga = new TransaksiSppHarga;
             $sppHarga->harga_spp = $request->spp;
             $sppHarga->diskon = $request->price;
+            $sppHarga->id_bulan = $request->bulan;
+            $sppHarga->id_tahun = $tahun->first()->id;
             $sppHarga->save();
         }
 
-        return redirect('/transaksi/set-harga-spp')->with([
+        return redirect('/transaksi/data-periode')->with([
             'success' => 'Spp berhasil ditetapkan',
         ]);
     }
 
-    public function getHargaSpp()
+    public function getHargaSpp($id_bulan, $id_tahun)
     {
-        $data = TransaksiSppHarga::all();
+        $data = TransaksiSppHarga::where('id_bulan', $id_bulan)->where('id_tahun', $id_tahun)->get();
         return response()->json($data);
     }
 
     public function edit($id)
     {
-        $bulan = Bulan::all();
+        $periode_set = TahunPeriode::where('is_set', 1)->get();
+        $periode = TransaksiSppHarga::with(['tahun', 'bulan'])->where('id_tahun', $periode_set->first()->id)->get();
         $siswa = Siswa::with('transaksi')->whereHas('transaksi', function($query) use ($id) {
             $query->where('id_siswa', $id);
         })->get();
 
         return view('trs.form-transaksi-spp-edit', [
             'siswa' => $siswa,
-            'bulan' => $bulan,
+            'periode' => $periode,
+            'periode_set' => $periode_set,
             'id' => $id
         ]);
     }
@@ -198,5 +213,13 @@ class TransaksiSppController extends Controller
         ])->get();
 
         return response()->json($tagihan);
+    }
+
+    public function dataPeriode()
+    {
+        $data = TransaksiSppHarga::with(['tahun', 'bulan'])->get();
+        return view('trs.data-periode', [
+            'data' => $data
+        ]);
     }
 }

@@ -66,14 +66,17 @@
                                     <div class="col-sm-6">
                                         <label for="">Bulan : *</label>
                                         <select name="bulan" id="">
-                                            @foreach ($bulan as $item)
-                                                <option value="{{ $item->id }}">{{ $item->bulan }}</option>
+                                            @foreach ($periode as $item)
+                                                <option value="{{ $item->bulan->id }}">{{ $item->bulan->bulan }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="col-sm-6">
                                         <label for="">Tahun : *</label>
-                                        <input type="number" name="tahun" value="">
+                                        <input type="number" disabled value="{{ $periode_set->first()->tahun }}">
+                                        <select name="tahun" id="tahun" hidden>
+                                            <option value="{{ $periode_set->first()->id }}">{{ $periode_set->first()->tahun }}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -155,13 +158,21 @@
             var sisa_tagihan = `{{ $siswa->first()->transaksi->sisa_bayar }}`
             $('.sisa_disabled').attr('value', 'Rp.'+formatRupiah(sisa_tagihan)+'.00,-')
 
+            // get value bulan
+            var bulan = $('select[name=bulan] option:selected').val()
+            var tahun = $("select[name=tahun] option:selected").val()
+            console.log(tahun)
             // akumulasi tagihan
-            $.get(`{{ url('') }}/transaksi/get-harga-spp`, function(res) {
+            $.get(`{{ url('') }}/transaksi/get-harga-spp/${bulan}/${tahun}`, function(res) {
                 res.forEach(function(val) {
                     var tagihan = val.harga_spp - (val.harga_spp * val.diskon / 100)
                     $('.sisa_hidden').attr('value', tagihan)
                     // Masukan harga spp ke input spp
                     $('.spp_harga').attr('value', tagihan)
+
+                    // set sisa tagihan
+                    var jumlah = $('.jumlah').val()
+                    $("input[name=sisa_bayar]").attr('value', `Rp.${formatRupiah(tagihan - jumlah)}.00,-`)
 
                     //
                     $('.tagihan').attr('value', 'Rp.'+formatRupiah(tagihan)+'.00,-')
@@ -171,6 +182,34 @@
                         var sisa = tagihan - jumlah
                         $('.sisa_disabled').attr('value', `Rp.${formatRupiah(sisa)}.00,-`)
                         $('.sisa_hidden').attr('value', sisa)
+                    })
+                })
+            })
+
+            $('select[name=bulan]').on('change', function() {
+                var bulan = $('select[name=bulan] option:selected').val()
+                var tahun = $('select[name=tahun] option:selected').val()
+                $.get(`{{ url('') }}/transaksi/get-harga-spp/${bulan}/${tahun}`, function(res) {
+                    res.forEach(function(val) {
+                        var tagihan = val.harga_spp - (val.harga_spp * val.diskon / 100)
+                        $('.sisa_disabled').attr('value', `Rp.${formatRupiah(tagihan)}.00,-`)
+                        $('.sisa_hidden').attr('value', tagihan)
+                        // Masukan harga spp ke input spp
+                        $('.spp_harga').attr('value', tagihan)
+
+                        // set sisa bayar
+                        var jumlah = $('.jumlah').val()
+                        $("input[name=sisa_bayar]").attr('value', `Rp.${formatRupiah(tagihan - jumlah)}.00,-`)
+
+                        //
+                        $('.tagihan').attr('value', `Rp.${formatRupiah(tagihan)}.00,-`)
+
+                        $('.dibayar').on('keyup', '.jumlah', function(e) {
+                            var jumlah = $('.jumlah').val()
+                            var sisa = tagihan - jumlah
+                            $('.sisa_disabled').attr('value', `Rp.${formatRupiah(sisa)}.00,-`)
+                            $('.sisa_hidden').attr('value', sisa)
+                        })
                     })
                 })
             })

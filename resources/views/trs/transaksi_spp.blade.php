@@ -62,7 +62,13 @@
     <div class="card-header">
         <h4>Data Transaksi</h4>
     </div>
-
+    @if($spp == "")
+    <span class="text-danger">
+        <br>
+        <h5>* Mohon tetapkan harga spp terlebih dahulu</h5>
+        <small>Set harga spp pada menu : configurasi / set harga spp</small>
+    </span>
+    @else
     <div class="card shadow">
     <div class="status-btn">
         <button class="pay" id="active">Data siswa yang telah membayar</button>
@@ -158,6 +164,7 @@
                 </div>
             </div>
         </div>
+        @endif
     </div>
     </div>
 </div>

@@ -72,6 +72,11 @@
                             <span class="nav-text">Pembayaran SPP</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ url('') }}/transaksi/data-periode" >
+                            <span class="nav-text">Data Periode</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 
@@ -92,8 +97,8 @@
                     </a>
                 </li>
                   <li>
-                    <a href="headers.html" >
-                      <span class="nav-text">Hak akses</span>
+                    <a href="{{ url('') }}/set-tahun" >
+                      <span class="nav-text">Set periode</span>
                     </a>
                   </li>
                 </ul>

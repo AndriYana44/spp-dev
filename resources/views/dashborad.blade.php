@@ -30,7 +30,7 @@
         <h6 class="card-subtitle mb-2 text-muted"></h6>
         <p class="card-text">Selamat datang di sistem pembayaran spp</p>
         @if (auth()->user()->id > 1)
-            <a href="#" class="btn btn-primary btn-sm card-link">Lihat Tagihan</a>
+            <a href="{{ url('') }}/transaksi/tagihan/{{ auth()->user()->id }}" class="btn btn-primary btn-sm card-link">Lihat Tagihan</a>
         @endif
     </div>
 </div>

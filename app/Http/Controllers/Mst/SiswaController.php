@@ -7,6 +7,7 @@ use App\Models\Mst\Jurusan;
 use App\Models\Mst\Kelas;
 use App\Models\Mst\Siswa;
 use App\Models\Mst\SiswaDetail;
+use App\Models\TahunPeriode;
 use App\Models\Trs\TransaksiInfo;
 use App\Models\User;
 use App\Models\User_r;
@@ -232,6 +233,45 @@ class SiswaController extends Controller
 
         return redirect('/siswa')->with([
             'success_del' => 'Data berhasil dihapus',
+        ]);
+    }
+
+    public function setPeriodeTahun()
+    {
+        $tahun = TahunPeriode::all();
+        return view('mst.tahun.set-tahun', [
+            'tahun' => $tahun
+        ]);
+    }
+
+    public function storeTahunPeriode(Request $request)
+    {
+        $tahun = new TahunPeriode;
+        $tahun->tahun = $request->tahun;
+        $tahun->save();
+
+        return redirect()->back()->with([
+            'success' => "Periode berhasil ditambahkan"
+        ]);
+    }
+
+    public function setTahunPeriode(Request $request)
+    {
+        $set = TahunPeriode::where('is_set', 1)->get();
+        if($set->first() != null) {
+            TahunPeriode::where('is_set', 1)
+                ->update([
+                    'is_set' => 0
+                ]);
+        }
+
+        TahunPeriode::where('id', $request->tahun)
+            ->update([
+                'is_set' => 1,
+            ]);
+
+        return redirect()->back()->with([
+            'success_set' => 'Periode berhasil ditetapkan',
         ]);
     }
 }

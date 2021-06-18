@@ -24,6 +24,10 @@
         <div class="alert alert-success" role="alert">
             {{ $message }}
         </div>
+        @elseif ($message = Session::get('failed'))
+        <div class="alert alert-danger" role="alert">
+            {{ $message }}
+        </div>
         @endif
         <form action="{{ url('') }}/transaksi/set-harga-spp/set" method="POST">
             @csrf
@@ -37,6 +41,14 @@
                         <div class="col-sm-2">
                             <label for="">Potongan SPP : *</label>
                             <input type="number" class="price" name="price" value="{{ $diskon != 0 ? $diskon : '' }}" placeholder="0%">%
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="">Bulan : *</label>
+                            <select name="bulan" id="bulan">
+                                @foreach ($bulan as $item)
+                                    <option value="{{ $item->id }}">{{ $item->bulan }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="form-group row">

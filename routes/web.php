@@ -54,6 +54,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/edit/{id}', [TransaksiSppController::class, 'edit']);
         Route::get('/add/{id}', [TransaksiSppController::class, 'create']);
 
+        Route::get('/data-periode', [TransaksiSppController::class, 'dataPeriode']);
+
         // set herga spp
         Route::post('/set-harga-spp/set', [TransaksiSppController::class, 'setSppHarga']);
 
@@ -62,7 +64,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/set-harga-spp', [TransaksiSppController::class, 'createSppHarga']);
 
         // get harga spp
-        Route::get('/get-harga-spp', [TransaksiSppController::class, 'getHargaSpp']);
+        Route::get('/get-harga-spp/{bulan?}/{tahun?}', [TransaksiSppController::class, 'getHargaSpp']);
 
         //get transaksi
         Route::get('/get-transaksi/{id}', [TransaksiSppController::class, 'getTransaksi']);
@@ -73,6 +75,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::post('file-import', [UserController::class, 'fileImport'])->name('file-import');
+
+    // configurasi tahun periode
+    Route::get('set-tahun', [SiswaController::class, 'setPeriodeTahun']);
+    Route::post('create-tahun-periode', [SiswaController::class, 'storeTahunPeriode']);
+    Route::post('set-tahun-periode', [SiswaController::class, 'setTahunPeriode']);
 });
 
 Route::get('/logout', [AuthenticatedSessionController::class, 'destroy']);

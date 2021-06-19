@@ -151,9 +151,10 @@
             // akumulasi tagihan
             $.get(`{{ url('') }}/transaksi/get-harga-spp/${bulan}/${tahun}`, function(res) {
                 res.forEach(function(val) {
+                    var jumlah = $('.jumlah').val()
                     var tagihan = val.harga_spp - (val.harga_spp * val.diskon / 100)
-                    $('.sisa_disabled').attr('value', `Rp.${formatRupiah(tagihan)}.00,-`)
-                    $('.sisa_hidden').attr('value', tagihan)
+                    $('.sisa_disabled').attr('value', `Rp.${formatRupiah(tagihan - jumlah)}.00,-`)
+                    $('.sisa_hidden').attr('value', tagihan - jumlah)
                     // Masukan harga spp ke input spp
                     $('.spp_harga').attr('value', tagihan)
 
@@ -174,9 +175,10 @@
                 var tahun = $('select[name=tahun] option:selected').val()
                 $.get(`{{ url('') }}/transaksi/get-harga-spp/${bulan}/${tahun}`, function(res) {
                     res.forEach(function(val) {
+                        var jumlah = $('.jumlah').val()
                         var tagihan = val.harga_spp - (val.harga_spp * val.diskon / 100)
-                        $('.sisa_disabled').attr('value', `Rp.${formatRupiah(tagihan)}.00,-`)
-                        $('.sisa_hidden').attr('value', tagihan)
+                        $('.sisa_disabled').attr('value', `Rp.${formatRupiah(tagihan - jumlah)}.00,-`)
+                        $('.sisa_hidden').attr('value', tagihan - jumlah)
                         // Masukan harga spp ke input spp
                         $('.spp_harga').attr('value', tagihan)
 

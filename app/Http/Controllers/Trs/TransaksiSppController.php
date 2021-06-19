@@ -15,9 +15,25 @@ use Illuminate\Support\Facades\DB;
 
 class TransaksiSppController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $transaksi = TransaksiSpp::with(['siswa', 'bulan'])->where('is_deleted', 0)->get();
+        $periode = TahunPeriode::where('is_set', 1)->get();
+        $bulan = Bulan::where('id', $request->bulan)->get();
+        $transaksi = TransaksiSpp::with(['siswa', 'bulan', 'tahun'])
+            ->where('is_deleted', 0)
+            ->whereHas('tahun', function($q) {
+                $q->where('is_set', 1);
+            })->get();
+
+        if($request->bulan != null) {
+            $transaksi = TransaksiSpp::with(['siswa', 'bulan', 'tahun'])
+            ->where('is_deleted', 0)
+            ->where('id_bulan', $request->bulan)
+            ->whereHas('tahun', function($q) {
+                $q->where('is_set', 1);
+            })->get();
+        }
+
         foreach($transaksi as $item) {
             $id_siswa_payment[] = $item->siswa->id;
         }
@@ -26,7 +42,8 @@ class TransaksiSppController extends Controller
         }else{
             $siswa_unpaid = Siswa::all();
         }
-        $spp = TransaksiSppHarga::all();
+
+        $spp = TransaksiSppHarga::with(['bulan'])->where('id_tahun', $periode->first()->id)->get();
         if($spp->first() != null) {
             $sppHarga = $spp->first()->harga_spp - ($spp->first()->harga_spp * $spp->first()->diskon / 100);
         }else{
@@ -37,6 +54,9 @@ class TransaksiSppController extends Controller
             'transaksi' => $transaksi,
             'unpaid' => $siswa_unpaid,
             'spp' => $sppHarga,
+            'periode' => $periode,
+            'bulan' => $spp,
+            'periode_bulan' => $bulan
         ]);
     }
 
@@ -68,7 +88,7 @@ class TransaksiSppController extends Controller
         $transaksi->no_transaksi = $request->no_transaksi;
         $transaksi->bayar = $request->dibayar;
         $transaksi->sisa_bayar = $request->sisa_bayar;
-        $transaksi->tahun = $request->tahun;
+        $transaksi->id_tahun = $request->tahun;
         $transaksi->id_siswa = $request->siswa;
         $transaksi->id_bulan = $request->bulan;
         $transaksi->spp = $request->spp;
@@ -157,7 +177,7 @@ class TransaksiSppController extends Controller
             'no_transaksi' => $request->no_transaksi,
             'bayar' => $request->dibayar,
             'sisa_bayar' => $request->sisa_bayar,
-            'tahun' => $request->tahun,
+            'id_tahun' => $request->tahun,
             'id_siswa' => $request->siswa,
             'id_bulan' => $request->bulan,
             'spp' => $request->spp,

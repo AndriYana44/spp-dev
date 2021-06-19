@@ -59,9 +59,23 @@
 </div>
 
 <div class="card">
-    <div class="card-header">
-        <h4>Data Transaksi</h4>
-    </div>
+    <form action="{{ url('') }}/transaksi" method="get">
+        <div class="card-header" style="display: flex; justify-content: center;">
+            <div class="input" style="width: 50%; height: 100px; display: flex; flex-direction: column; justify-content: center; position: relative;">
+                <div class="form-group">
+                    <label for="tahun">bulan : *&emsp;</label>
+                    <select name="bulan" id="bulan" style="width: 50%">
+                        @foreach ($bulan as $item)
+                        <option value="{{ $item->bulan->id }}"
+                            @if (old('bulan') == $item->bulan->id) selected="selected" @endif
+                            >{{ $item->bulan->bulan }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <button class="btn btn-primary btn-periode" style="bottom: 38px; right: 80px" type="submit">Sumbit</button>
+            </div>
+        </div>
+    </form>
     @if($spp == "")
     <span class="text-danger">
         <br>
@@ -70,6 +84,7 @@
     </span>
     @else
     <div class="card shadow">
+    <span class="text-dark periode"><strong>Periode : {{ $periode_bulan->first()->bulan }} - {{ $periode->first()->tahun }}</strong></span>
     <div class="status-btn">
         <button class="pay" id="active">Data siswa yang telah membayar</button>
         <button class="unpay">Data siswa yang belum membayar</button>

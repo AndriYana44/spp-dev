@@ -172,8 +172,8 @@
 
                     // set sisa tagihan
                     var jumlah = $('.jumlah').val()
-                    $("input[name=sisa_bayar]").attr('value', `Rp.${formatRupiah(tagihan - jumlah)}.00,-`)
-
+                    $(".sisa_disabled").attr('value', `Rp.${formatRupiah(tagihan - jumlah)}.00,-`)
+                    $('.sisa_hidden').attr('value', tagihan - jumlah)
                     //
                     $('.tagihan').attr('value', 'Rp.'+formatRupiah(tagihan)+'.00,-')
 
@@ -199,8 +199,8 @@
 
                         // set sisa bayar
                         var jumlah = $('.jumlah').val()
-                        $("input[name=sisa_bayar]").attr('value', `Rp.${formatRupiah(tagihan - jumlah)}.00,-`)
-
+                        $(".sisa_disabled").attr('value', `Rp.${formatRupiah(tagihan - jumlah)}.00,-`)
+                        $('.sisa_hidden').attr('value', tagihan - jumlah)
                         //
                         $('.tagihan').attr('value', `Rp.${formatRupiah(tagihan)}.00,-`)
 

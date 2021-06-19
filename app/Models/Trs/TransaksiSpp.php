@@ -4,6 +4,7 @@ namespace App\Models\Trs;
 
 use App\Models\Mst\Bulan;
 use App\Models\Mst\Siswa;
+use App\Models\TahunPeriode;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,5 +22,10 @@ class TransaksiSpp extends Model
     public function siswa()
     {
         return $this->belongsTo(Siswa::class, 'id_siswa');
+    }
+
+    public function tahun()
+    {
+        return $this->belongsTo(TahunPeriode::class, 'id_tahun');
     }
 }

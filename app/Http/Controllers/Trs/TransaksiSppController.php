@@ -21,34 +21,36 @@ class TransaksiSppController extends Controller
         $bulan = Bulan::where('id', $request->bulan)->get();
         $transaksi = TransaksiSpp::with(['siswa', 'bulan', 'tahun'])
             ->where('is_deleted', 0)
-            ->whereHas('tahun', function($q) {
+            ->whereHas('tahun', function ($q) {
                 $q->where('is_set', 1);
             })->get();
 
-        if($request->bulan != null) {
+        if ($request->bulan != null) {
             $transaksi = TransaksiSpp::with(['siswa', 'bulan', 'tahun'])
-            ->where('is_deleted', 0)
-            ->where('id_bulan', $request->bulan)
-            ->whereHas('tahun', function($q) {
-                $q->where('is_set', 1);
-            })->get();
+                ->where('is_deleted', 0)
+                ->where('id_bulan', $request->bulan)
+                ->whereHas('tahun', function ($q) {
+                    $q->where('is_set', 1);
+                })->get();
         }
 
-        foreach($transaksi as $item) {
+        foreach ($transaksi as $item) {
             $id_siswa_payment[] = $item->siswa->id;
         }
-        if($transaksi->first() != null) {
+        if ($transaksi->first() != null) {
             $siswa_unpaid = Siswa::whereNotIn('id', $id_siswa_payment)->get();
-        }else{
+        } else {
             $siswa_unpaid = Siswa::all();
         }
 
         $spp = TransaksiSppHarga::with(['bulan'])->where('id_tahun', $periode->first()->id)->get();
-        if($spp->first() != null) {
+        if ($spp->first() != null) {
             $sppHarga = $spp->first()->harga_spp - ($spp->first()->harga_spp * $spp->first()->diskon / 100);
-        }else{
+        } else {
             $sppHarga = '';
         }
+
+        $data_periode = TransaksiSppHarga::with(['tahun', 'bulan'])->get();
 
         return view('trs.transaksi_spp', [
             'transaksi' => $transaksi,
@@ -56,7 +58,8 @@ class TransaksiSppController extends Controller
             'spp' => $sppHarga,
             'periode' => $periode,
             'bulan' => $spp,
-            'periode_bulan' => $bulan
+            'periode_bulan' => $bulan,
+            'data_periode' => $data_periode
         ]);
     }
 
@@ -92,9 +95,9 @@ class TransaksiSppController extends Controller
         $transaksi->id_siswa = $request->siswa;
         $transaksi->id_bulan = $request->bulan;
         $transaksi->spp = $request->spp;
-        if($request->sisa_bayar > 0) {
+        if ($request->sisa_bayar > 0) {
             $transaksi->is_pending = 1;
-        }elseif($request->sisa_bayar <= 0) {
+        } elseif ($request->sisa_bayar <= 0) {
             $transaksi->is_paid = 1;
         }
         $transaksi->save();
@@ -109,7 +112,7 @@ class TransaksiSppController extends Controller
         $checkDataSpp = TransaksiSppHarga::all();
         $harga = 0;
         $diskon = 0;
-        if($checkDataSpp->first() != null) {
+        if ($checkDataSpp->first() != null) {
             $harga = $checkDataSpp->first()->harga_spp;
             $diskon = $checkDataSpp->first()->diskon;
         }
@@ -129,11 +132,11 @@ class TransaksiSppController extends Controller
         $bulan = Bulan::all();
         $validasi = TransaksiSppHarga::where('id_bulan', $request->bulan)
             ->where('id_tahun', $request->tahun)->get();
-        if($validasi->count() > 0) {
+        if ($validasi->count() > 0) {
             return redirect('/transaksi/set-harga-spp')->with([
-                'failed' => 'Data pada periode '. $bulan->where('id', $request->bulan)->first()->bulan .' - '. $tahun->first()->tahun .' sudah ada',
+                'failed' => 'Data pada periode ' . $bulan->where('id', $request->bulan)->first()->bulan . ' - ' . $tahun->first()->tahun . ' sudah ada',
             ]);
-        }else{
+        } else {
             $sppHarga = new TransaksiSppHarga;
             $sppHarga->harga_spp = $request->spp;
             $sppHarga->diskon = $request->price;
@@ -157,7 +160,7 @@ class TransaksiSppController extends Controller
     {
         $periode_set = TahunPeriode::where('is_set', 1)->get();
         $periode = TransaksiSppHarga::with(['tahun', 'bulan'])->where('id_tahun', $periode_set->first()->id)->get();
-        $siswa = Siswa::with('transaksi')->whereHas('transaksi', function($query) use ($id) {
+        $siswa = Siswa::with('transaksi')->whereHas('transaksi', function ($query) use ($id) {
             $query->where('id_siswa', $id);
         })->get();
 
@@ -183,11 +186,11 @@ class TransaksiSppController extends Controller
             'spp' => $request->spp,
         ]);
 
-        if($request->sisa_bayar > 0) {
+        if ($request->sisa_bayar > 0) {
             TransaksiSpp::find($transaksi->first()->id)->update([
                 'is_pending' => 1
             ]);
-        }elseif($request->sisa_bayar <= 0) {
+        } elseif ($request->sisa_bayar <= 0) {
             TransaksiSpp::find($transaksi->first()->id)->update([
                 'is_paid' => 1
             ]);

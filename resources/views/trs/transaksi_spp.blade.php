@@ -57,8 +57,8 @@
 <div class="menu-position">
     <small>Dashboard / Transaksi / pembayaran spp</small>
 </div>
-
 <div class="card">
+    @if ($data_periode->first() != null)
     <form action="{{ url('') }}/transaksi" method="get">
         <div class="card-header" style="display: flex; justify-content: center;">
             <div class="input" style="width: 50%; height: 100px; display: flex; flex-direction: column; justify-content: center; position: relative;">
@@ -76,15 +76,16 @@
             </div>
         </div>
     </form>
+    @endif
     @if($spp == "")
     <span class="text-danger">
         <br>
         <h5>* Mohon tetapkan harga spp terlebih dahulu</h5>
-        <small>Set harga spp pada menu : configurasi / set harga spp</small>
+        <small>Set harga spp pada menu : configurasi / set harga spp</small><br><br>
+        <a href="{{ url('') }}/transaksi/set-harga-spp" class="btn btn-primary">Set Harga Periode SPP</a>
     </span>
     @else
     <div class="card shadow">
-    <span class="text-dark periode"><strong>Periode : {{ $periode_bulan->first()->bulan }} - {{ $periode->first()->tahun }}</strong></span>
     <div class="status-btn">
         <button class="pay" id="active">Data siswa yang telah membayar</button>
         <button class="unpay">Data siswa yang belum membayar</button>

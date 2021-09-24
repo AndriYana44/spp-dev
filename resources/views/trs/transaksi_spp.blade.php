@@ -57,9 +57,17 @@
 <div class="menu-position">
     <small>Dashboard / Transaksi / pembayaran spp</small>
 </div>
+
+@if ($spp != null)
 <div class="card">
     @if ($data_periode->first() != null)
     <form action="{{ url('') }}/transaksi" method="get">
+        @php
+            $id_selected = 0;
+            if(isset($_GET['bulan'])) {
+                $id_selected = $_GET['bulan'];
+            }
+        @endphp
         <div class="card-header" style="display: flex; justify-content: center;">
             <div class="input" style="width: 50%; height: 100px; display: flex; flex-direction: column; justify-content: center; position: relative;">
                 <div class="form-group">
@@ -67,7 +75,7 @@
                     <select name="bulan" id="bulan" style="width: 50%">
                         @foreach ($bulan as $item)
                         <option value="{{ $item->bulan->id }}"
-                            @if (old('bulan') == $item->bulan->id) selected="selected" @endif
+                            {{ $id_selected == $item->bulan->id ? "selected" : "" }}
                             >{{ $item->bulan->bulan }}</option>
                         @endforeach
                     </select>
@@ -184,6 +192,15 @@
     </div>
     </div>
 </div>
+@else
+<div class="card">
+    <div class="card-body">
+        <div class="alert alert-warning" role="alert">
+            Tentukan periode tahun pembayaran terlebih dahulu!
+        </div>
+    </div>
+</div>
+@endif
 
 <style>
     .modal-detail {

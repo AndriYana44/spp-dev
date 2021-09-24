@@ -43,8 +43,12 @@ class TransaksiSppController extends Controller
             $siswa_unpaid = Siswa::all();
         }
 
-        $spp = TransaksiSppHarga::with(['bulan'])->where('id_tahun', $periode->first()->id)->get();
-        if ($spp->first() != null) {
+        $spp = null;
+        $sppHarga = null;
+        if(!is_null($periode->first())) {
+            $spp = TransaksiSppHarga::with(['bulan'])->where('id_tahun', $periode->first()->id)->get();
+        }
+        if ($spp != null) {
             $sppHarga = $spp->first()->harga_spp - ($spp->first()->harga_spp * $spp->first()->diskon / 100);
         } else {
             $sppHarga = '';

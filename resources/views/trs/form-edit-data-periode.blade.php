@@ -29,31 +29,31 @@
             {{ $message }}
         </div>
         @endif
-        <form action="{{ url('') }}/transaksi/set-harga-spp/set" method="POST">
+        <form action="{{ url('') }}/transaksi/edit-harga-spp/set/{{ $data->id }}" method="POST">
             @csrf
             <div class="row">
                 <div class="col-sm-12">
                     <div class="form-group row">
                         <div class="col-sm-4">
                             <label for="">Harga SPP : *</label>
-                            <input type="number" name="spp" value="{{ $harga != 0 ? $harga : '' }}" placeholder="Rp.0,-">
+                            <input type="number" name="spp" value="{{ $data->harga_spp }}">
                         </div>
                         <div class="col-sm-2">
                             <label for="">Potongan SPP : *</label>
-                            <input type="number" class="price" name="price" value="{{ $diskon != 0 ? $diskon : '' }}" placeholder="0%">%
+                            <input type="number" class="price" name="price" value="{{ $data->diskon }}">%
                         </div>
                         <div class="col-sm-3">
                             <label for="">Bulan : *</label>
                             <select name="bulan" id="bulan">
                                 @foreach ($bulan as $item)
-                                    <option value="{{ $item->id }}">{{ $item->bulan }}</option>
+                                    <option value="{{ $item->id }}" {{$item->id == $data->bulan->id ? "selected" : ""}}>{{ $item->bulan }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Set Harga</button>
-                        <button type="button" class="btn btn-default" onclick="return window.history.back()">Cancel</button>
+                        <button type="submit" class="btn btn-primary d-inline">Set Harga</button>
+                        <button onclick="return window.history.back()" class="btn btn-default d-inline">Cancel</button>   
                     </div>
                 </div>
             </div>

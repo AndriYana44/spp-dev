@@ -44,8 +44,8 @@
                     <td class="text-center">{{ $item->bulan->bulan }}</td>
                     <td class="text-center">{{ $item->tahun->tahun }}</td>
                     <td class="text-center">
-                        <a href="{{ url('') }}/edit-spp-periode/{{ $item->id }}" class="btn btn-warning btn-sm">Edit</a>
-                        <a href="{{ url('') }}/delete/{{ $item->id }}" class="btn btn-danger btn-sm">Hapus</a>
+                        <a href="{{ url('') }}/transaksi/data-periode/edit/{{ $item->id }}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{{ url('') }}/transaksi/data-periode/delete/{{ $item->id }}" onclick="return confirm('Lanjutkan menghapus data?')" class="btn btn-danger btn-sm">Hapus</a>
                     </td>
                 </tr>
                 @endforeach

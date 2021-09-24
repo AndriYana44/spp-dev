@@ -55,9 +55,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/add/{id}', [TransaksiSppController::class, 'create']);
 
         Route::get('/data-periode', [TransaksiSppController::class, 'dataPeriode']);
+        Route::get('/data-periode/edit/{id}', [TransaksiSppController::class, 'editDataPeriode']);
+        Route::get('/data-periode/delete/{id}', [TransaksiSppController::class, 'destroy']);
 
         // set herga spp
         Route::post('/set-harga-spp/set', [TransaksiSppController::class, 'setSppHarga']);
+        Route::post('/edit-harga-spp/set/{id}', [TransaksiSppController::class, 'updateDataPeriode']);
 
         // get data siswa (json)
         Route::get('/get-siswa/{id}', [TransaksiSppController::class, 'getSiswa']);

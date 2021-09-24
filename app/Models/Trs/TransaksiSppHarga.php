@@ -11,6 +11,7 @@ class TransaksiSppHarga extends Model
 {
     use HasFactory;
     protected $table = 'trs_transaksi_spp_harga';
+    protected $guarded = [];
 
     public function tahun()
     {

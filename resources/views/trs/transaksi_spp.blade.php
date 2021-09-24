@@ -195,8 +195,9 @@
 @else
 <div class="card">
     <div class="card-body">
-        <div class="alert alert-warning" role="alert">
-            Tentukan periode tahun pembayaran terlebih dahulu!
+        <div class="alert-danger" style="padding: 20px; border-radius: 8px;" role="alert">
+            Tentukan harga spp terlebih dahulu! <br>
+            Klik <a href="{{ url('') }}/transaksi/set-harga-spp" style="color: blue;">disini</a> untuk menetapkan harga
         </div>
     </div>
 </div>
